@@ -351,9 +351,86 @@
     .week-selector { width: 100%; flex-wrap: wrap; }
     .info-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── LOGIN SCREEN ─────────────────────────────────────────────────────────── */
+  #login-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 60%, #3a2000 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  #login-overlay.hidden { display: none; }
+  .login-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 40px 36px;
+    width: 92%; max-width: 380px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .login-ball {
+    width: 70px; height: 70px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 18px;
+    box-shadow: 0 4px 20px rgba(244,123,32,0.5);
+  }
+  .login-box h1 { color: white; font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
+  .login-box h1 span { color: var(--orange); }
+  .login-box p { color: #aaa; font-size: 0.82rem; margin-bottom: 28px; }
+  .login-box label { display: block; text-align: left; color: #ccc; font-size: 0.78rem; font-weight: 600; margin-bottom: 7px; letter-spacing: 0.5px; }
+  .login-input-wrap { position: relative; margin-bottom: 8px; }
+  .login-input-wrap input {
+    width: 100%; padding: 13px 44px 13px 16px;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 10px; color: white; font-size: 1rem;
+    outline: none; transition: border-color 0.2s; letter-spacing: 2px;
+  }
+  .login-input-wrap input::placeholder { letter-spacing: 0; color: #666; }
+  .login-input-wrap input:focus { border-color: var(--orange); }
+  .login-input-wrap input.error { border-color: var(--red); }
+  .toggle-pw {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: #888; cursor: pointer; font-size: 1rem; padding: 0;
+  }
+  .login-error {
+    color: #e74c3c; font-size: 0.78rem; min-height: 18px;
+    margin-bottom: 16px; text-align: left;
+  }
+  .login-btn {
+    width: 100%; padding: 13px;
+    background: var(--orange); border: none; border-radius: 10px;
+    color: white; font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s; letter-spacing: 0.3px;
+  }
+  .login-btn:hover { background: var(--dark-orange); }
+  .login-btn:active { transform: scale(0.98); }
+  .login-footer { color: #555; font-size: 0.72rem; margin-top: 22px; }
 </style>
 </head>
 <body>
+
+<!-- ── LOGIN OVERLAY ──────────────────────────────────────────────────────── -->
+<div id="login-overlay">
+  <div class="login-box">
+    <div class="login-ball">🏀</div>
+    <h1>Hoop It <span>Up</span> ATX</h1>
+    <p>2026 Check-In Portal &mdash; Staff Access Only</p>
+    <label for="login-pw">Password</label>
+    <div class="login-input-wrap">
+      <input type="password" id="login-pw" placeholder="Enter password"
+             onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="toggle-pw" onclick="togglePw()" tabindex="-1" title="Show/hide">👁</button>
+    </div>
+    <div class="login-error" id="login-error"></div>
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+  </div>
+  <div class="login-footer">Hoop It Up ATX 2026 &mdash; Authorized Staff Only</div>
+</div>
 
 <header>
   <div class="header-top">
@@ -3935,6 +4012,41 @@ function importData(event) {
   // Reset the input so the same file can be re-selected if needed
   event.target.value = '';
 }
+
+// ── LOGIN ─────────────────────────────────────────────────────────────────────
+// ⬇ Change this password to whatever you'd like
+const APP_PASSWORD = 'HoopItUp2026';
+const SESSION_KEY  = 'hoopitup_auth';
+
+function checkLogin() {
+  if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+    document.getElementById('login-overlay').classList.add('hidden');
+  }
+}
+
+function doLogin() {
+  const input = document.getElementById('login-pw');
+  const error = document.getElementById('login-error');
+  if (input.value === APP_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    document.getElementById('login-overlay').classList.add('hidden');
+    input.value = '';
+    error.textContent = '';
+    input.classList.remove('error');
+  } else {
+    error.textContent = 'Incorrect password. Please try again.';
+    input.classList.add('error');
+    input.focus();
+    input.select();
+  }
+}
+
+function togglePw() {
+  const input = document.getElementById('login-pw');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+checkLogin();
 
 // Keyboard support
 document.addEventListener('keydown', e => {
