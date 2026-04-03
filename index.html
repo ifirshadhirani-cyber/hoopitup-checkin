@@ -1,0 +1,3951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoop It Up ATX 2026 — Check-In</title>
+<style>
+  :root {
+    --orange: #f47b20;
+    --dark-orange: #d4651a;
+    --black: #1a1a1a;
+    --dark: #2a2a2a;
+    --gray: #3a3a3a;
+    --light-gray: #f5f5f5;
+    --white: #ffffff;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --blue: #2980b9;
+    --yellow: #f39c12;
+    --card-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: var(--black); min-height: 100vh; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--black) 0%, var(--dark) 60%, #3a2000 100%);
+    color: white;
+    padding: 0;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+  }
+  .logo-area { display: flex; align-items: center; gap: 14px; }
+  .basketball-icon {
+    width: 52px; height: 52px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 2px 8px rgba(244,123,32,0.5);
+    flex-shrink: 0;
+  }
+  .title-block h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.5px; }
+  .title-block h1 span { color: var(--orange); }
+  .title-block p { font-size: 0.78rem; color: #aaa; margin-top: 2px; }
+  .week-selector { display: flex; gap: 6px; align-items: center; }
+  .week-btn {
+    background: rgba(255,255,255,0.08);
+    color: #ccc;
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 7px 14px; border-radius: 20px;
+    cursor: pointer; font-size: 0.78rem; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .week-btn:hover { background: rgba(244,123,32,0.3); color: white; }
+  .week-btn.active { background: var(--orange); color: white; border-color: var(--orange); }
+  .stats-bar {
+    display: flex; gap: 0;
+    background: rgba(0,0,0,0.3);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-chip {
+    flex: 1; text-align: center;
+    padding: 10px 8px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-chip:last-child { border-right: none; }
+  .stat-chip .num { font-size: 1.4rem; font-weight: 800; color: var(--orange); }
+  .stat-chip .lbl { font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* CONTROLS */
+  .controls {
+    background: white;
+    padding: 14px 16px;
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  .search-box {
+    flex: 1; min-width: 200px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%; padding: 10px 16px 10px 40px;
+    border: 2px solid #e0e0e0; border-radius: 25px;
+    font-size: 0.9rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box input:focus { border-color: var(--orange); }
+  .search-box .icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #999; font-size: 1rem; }
+  .filter-select {
+    padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 25px;
+    font-size: 0.85rem; outline: none; cursor: pointer;
+    background: white;
+    transition: border-color 0.2s;
+  }
+  .filter-select:focus { border-color: var(--orange); }
+  .btn-reset {
+    padding: 10px 18px; border-radius: 25px;
+    background: var(--light-gray); border: none;
+    cursor: pointer; font-size: 0.85rem; color: #666;
+    transition: all 0.2s;
+  }
+  .btn-reset:hover { background: #e0e0e0; }
+  .btn-export {
+    padding: 10px 16px; border-radius: 25px;
+    background: #2980b9; border: none; color: white;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-export:hover { background: #1f6fa0; }
+  .btn-import {
+    padding: 10px 16px; border-radius: 25px;
+    background: #27ae60; border: none; color: white;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-import:hover { background: #1e8a4d; }
+  #import-file-input { display: none; }
+  .btn-roster {
+    padding: 10px 16px; border-radius: 25px;
+    background: #8e44ad; border: none; color: white;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-roster:hover { background: #7030a0; }
+  #roster-file-input { display: none; }
+  .btn-gsheet {
+    padding: 10px 16px; border-radius: 25px;
+    background: #1a73e8; border: none; color: white;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-gsheet:hover { background: #1558b0; }
+  .btn-gsheet.connected { background: #188038; }
+  .btn-gsheet.connected:hover { background: #0f5c29; }
+  .btn-gsheet-refresh {
+    padding: 10px 14px; border-radius: 25px;
+    background: #e8f0fe; border: 1px solid #1a73e8; color: #1a73e8;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap; display: none;
+  }
+  .btn-gsheet-refresh:hover { background: #d2e3fc; }
+  .btn-gsheet-refresh.visible { display: block; }
+  .roster-info-bar {
+    background: #e8f0fe; border-top: 2px solid #1a73e8;
+    padding: 8px 16px; font-size: 0.78rem; color: #1a1a1a;
+    display: none; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .roster-info-bar.visible { display: flex; }
+  .roster-info-bar strong { color: #1558b0; }
+  .roster-info-bar .live-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #188038;
+    display: inline-block; animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* GOOGLE SHEET MODAL */
+  .gsheet-modal-overlay {
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.55); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .gsheet-modal-overlay.open { display: flex; }
+  .gsheet-modal {
+    background: white; border-radius: 14px; padding: 28px 28px 22px;
+    max-width: 500px; width: 92%; box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .gsheet-modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: #1a1a1a; }
+  .gsheet-modal .subtitle { font-size: 0.82rem; color: #666; margin-bottom: 18px; line-height: 1.5; }
+  .gsheet-modal .subtitle a { color: #1a73e8; }
+  .gsheet-modal label { font-size: 0.8rem; font-weight: 700; color: #444; display: block; margin-bottom: 5px; }
+  .gsheet-modal input {
+    width: 100%; padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 8px;
+    font-size: 0.85rem; outline: none; margin-bottom: 14px;
+    transition: border-color 0.2s;
+  }
+  .gsheet-modal input:focus { border-color: #1a73e8; }
+  .gsheet-modal .hint { font-size: 0.75rem; color: #888; margin-top: -10px; margin-bottom: 14px; }
+  .gsheet-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+  .gsheet-modal .btn-cancel {
+    padding: 10px 20px; border-radius: 8px; border: 1px solid #ddd;
+    background: white; cursor: pointer; font-size: 0.85rem; color: #555;
+  }
+  .gsheet-modal .btn-cancel:hover { background: #f5f5f5; }
+  .gsheet-modal .btn-connect {
+    padding: 10px 22px; border-radius: 8px; border: none;
+    background: #1a73e8; color: white; font-weight: 700;
+    font-size: 0.85rem; cursor: pointer; transition: background 0.2s;
+  }
+  .gsheet-modal .btn-connect:hover { background: #1558b0; }
+  .gsheet-modal .btn-connect:disabled { background: #aaa; cursor: default; }
+  .gsheet-modal .error-msg { color: #c0392b; font-size: 0.8rem; margin-bottom: 10px; display: none; }
+  .gsheet-modal .error-msg.visible { display: block; }
+
+  /* RESULTS INFO */
+  .results-info {
+    padding: 10px 16px;
+    font-size: 0.82rem; color: #777;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .view-toggle { display: flex; gap: 6px; }
+  .view-btn {
+    padding: 5px 12px; border-radius: 15px;
+    border: 1px solid #ddd; background: white;
+    cursor: pointer; font-size: 0.78rem;
+    transition: all 0.2s;
+  }
+  .view-btn.active { background: var(--orange); color: white; border-color: var(--orange); }
+
+  /* PARTICIPANT LIST */
+  .participant-list {
+    padding: 10px 12px 80px;
+    display: grid;
+    gap: 10px;
+  }
+  .participant-list.list-view { grid-template-columns: 1fr; }
+  .participant-list.grid-view { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+
+  .participant-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--card-shadow);
+    border-left: 4px solid #e0e0e0;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .participant-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); transform: translateY(-1px); }
+  .participant-card.checked-in { border-left-color: var(--green); background: #f0fff4; }
+  .participant-card.unpaid { border-left-color: var(--red); }
+  .participant-card.adult { border-left-color: var(--orange); }
+  .participant-card.junior { border-left-color: var(--blue); }
+  .participant-card.checked-in { border-left-color: var(--green) !important; }
+
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .card-name { font-size: 1.05rem; font-weight: 700; color: var(--black); }
+  .card-meta { font-size: 0.75rem; color: #888; margin-top: 2px; }
+  .badges { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+  .badge {
+    padding: 3px 10px; border-radius: 12px;
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .badge-adult { background: #fff3e0; color: var(--dark-orange); }
+  .badge-junior { background: #e3f2fd; color: #1565c0; }
+  .badge-paid { background: #e8f5e9; color: #2e7d32; }
+  .badge-unpaid { background: #ffebee; color: #c62828; }
+  .badge-shirt { background: #f3e5f5; color: #6a1b9a; }
+  .badge-jk { background: #e0f2f1; color: #00695c; font-size: 0.65rem; }
+  .badge-captain { background: #fff8e1; color: #f57f17; }
+
+  .card-details { font-size: 0.78rem; color: #666; margin-top: 8px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .card-details span { display: flex; align-items: center; gap: 4px; }
+
+  .checkin-btn {
+    position: absolute; right: 14px; bottom: 14px;
+    padding: 8px 18px; border-radius: 20px;
+    border: none; cursor: pointer; font-size: 0.8rem; font-weight: 700;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .checkin-btn.not-checked { background: var(--orange); color: white; }
+  .checkin-btn.not-checked:hover { background: var(--dark-orange); }
+  .checkin-btn.checked { background: var(--green); color: white; cursor: default; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6); z-index: 200;
+    justify-content: center; align-items: flex-start;
+    padding: 20px; overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white; border-radius: 18px;
+    width: 100%; max-width: 520px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    overflow: hidden;
+    animation: slideUp 0.25s ease;
+    margin: auto;
+  }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-header {
+    padding: 22px 24px 16px;
+    background: linear-gradient(135deg, var(--black), var(--dark));
+    color: white;
+    display: flex; align-items: flex-start; justify-content: space-between;
+  }
+  .modal-header h2 { font-size: 1.2rem; font-weight: 800; }
+  .modal-header p { font-size: 0.78rem; color: #aaa; margin-top: 3px; }
+  .modal-close {
+    background: rgba(255,255,255,0.1); border: none; color: white;
+    width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+  .modal-body { padding: 20px 24px; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .info-item label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; color: #999; font-weight: 600; }
+  .info-item value { display: block; font-size: 0.9rem; font-weight: 600; color: var(--black); margin-top: 2px; }
+  .info-section { margin-top: 18px; }
+  .info-section h3 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: #999; font-weight: 700; padding-bottom: 8px; border-bottom: 1px solid #eee; margin-bottom: 12px; }
+  .allergy-box {
+    background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px;
+    padding: 10px 14px; font-size: 0.85rem; color: #5d4037;
+  }
+  .modal-footer { padding: 16px 24px; background: #f9f9f9; display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-checkin-modal {
+    padding: 11px 28px; border-radius: 25px; border: none;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-checkin-modal.do-checkin { background: var(--orange); color: white; }
+  .btn-checkin-modal.do-checkin:hover { background: var(--dark-orange); }
+  .btn-checkin-modal.undo-checkin { background: #eee; color: #555; }
+  .btn-checkin-modal.undo-checkin:hover { background: #ddd; }
+  .btn-cancel { padding: 11px 20px; border-radius: 25px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 0.9rem; color: #666; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--black); color: white;
+    padding: 12px 24px; border-radius: 25px;
+    font-size: 0.9rem; font-weight: 600;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 300; opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+  .toast.green { background: var(--green); }
+  .toast.orange { background: var(--orange); }
+
+  /* EMPTY STATE */
+  .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+  .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+  .empty-state p { font-size: 1rem; }
+
+  /* PROGRESS BAR */
+  .progress-section { padding: 10px 16px 0; }
+  .progress-bar-wrap { background: #e0e0e0; border-radius: 8px; height: 8px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 8px; background: var(--green); transition: width 0.4s ease; }
+  .progress-label { font-size: 0.75rem; color: #888; margin-bottom: 5px; }
+
+  @media (max-width: 600px) {
+    .header-top { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .week-selector { width: 100%; flex-wrap: wrap; }
+    .info-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo-area">
+      <div class="basketball-icon">🏀</div>
+      <div class="title-block">
+        <h1>Hoop It Up <span>ATX</span> 2026</h1>
+        <p>Participant Check-In System</p>
+      </div>
+    </div>
+    <div class="week-selector">
+      <button class="week-btn active" onclick="setWeek(0)">Apr 5</button>
+      <button class="week-btn" onclick="setWeek(1)">Apr 12</button>
+      <button class="week-btn" onclick="setWeek(2)">Apr 19</button>
+      <button class="week-btn" onclick="setWeek(3)">Apr 26</button>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-chip"><div class="num" id="stat-total">0</div><div class="lbl">Registered</div></div>
+    <div class="stat-chip"><div class="num" id="stat-checkedin">0</div><div class="lbl">Checked In</div></div>
+    <div class="stat-chip"><div class="num" id="stat-adults">0</div><div class="lbl">Adults</div></div>
+    <div class="stat-chip"><div class="num" id="stat-juniors">0</div><div class="lbl">Juniors</div></div>
+    <div class="stat-chip"><div class="num" id="stat-unpaid">0</div><div class="lbl">Unpaid</div></div>
+  </div>
+</header>
+
+<div class="progress-section">
+  <div class="progress-label" id="progress-label"></div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
+</div>
+
+<div class="controls">
+  <div class="search-box">
+    <span class="icon">🔍</span>
+    <input type="text" id="search" placeholder="Search by name, email, or phone…" oninput="applyFilters()">
+  </div>
+  <select class="filter-select" id="filter-division" onchange="applyFilters()">
+    <option value="">All Divisions</option>
+    <option value="Adults (Ages 17+)">Adults (17+)</option>
+    <option value="Juniors (Ages 12-16)">Juniors (12–16)</option>
+  </select>
+  <select class="filter-select" id="filter-jk" onchange="applyFilters()">
+    <option value="">All Jamatkhanas</option>
+    <option value="Austin Cedar Park">Austin Cedar Park</option>
+    <option value="Austin Downtown">Austin Downtown</option>
+    <option value="Austin South">Austin South</option>
+    <option value="College Station">College Station</option>
+    <option value="Houston Harvest Green">Houston Harvest Green</option>
+    <option value="Houston Headquarters">Houston Headquarters</option>
+    <option value="Houston Principal">Houston Principal</option>
+    <option value="San Antonio">San Antonio</option>
+    <option value="Sugar Land">Sugar Land</option>
+  </select>
+  <select class="filter-select" id="filter-status" onchange="applyFilters()">
+    <option value="">All Statuses</option>
+    <option value="Paid">Paid</option>
+    <option value="Unpaid">Unpaid</option>
+    <option value="checkedin">Checked In</option>
+    <option value="notcheckedin">Not Checked In</option>
+  </select>
+  <button class="btn-reset" onclick="resetFilters()">Reset</button>
+  <button class="btn-export" onclick="exportData()">💾 Save Backup</button>
+  <button class="btn-import" onclick="document.getElementById('import-file-input').click()">📂 Load Backup</button>
+  <input type="file" id="import-file-input" accept=".json" onchange="importData(event)">
+  <button class="btn-gsheet" id="btn-gsheet" onclick="openSheetModal()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 3h-15A1.5 1.5 0 003 4.5v15A1.5 1.5 0 004.5 21h15a1.5 1.5 0 001.5-1.5v-15A1.5 1.5 0 0019.5 3zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>
+    <span id="gsheet-btn-label">Connect Google Sheet</span>
+  </button>
+  <button class="btn-gsheet-refresh" id="btn-gsheet-refresh" onclick="refreshFromSheet()">↻ Refresh</button>
+  <input type="file" id="roster-file-input" accept=".csv" onchange="loadRosterFromCSV(event)" style="display:none">
+</div>
+
+<div class="roster-info-bar" id="roster-info-bar">
+  <span class="live-dot"></span>
+  <span id="roster-info-text">Connected to Google Sheet</span>
+</div>
+
+<!-- Google Sheet Connection Modal -->
+<div class="gsheet-modal-overlay" id="gsheet-modal-overlay" onclick="if(event.target===this)closeSheetModal()">
+  <div class="gsheet-modal">
+    <h3>🔗 Connect Google Sheet</h3>
+    <p class="subtitle">
+      The sheet must be shared as <strong>"Anyone with the link can view"</strong>.<br>
+      In Google Sheets: <em>File → Share → Share with others → change to "Anyone with the link"</em>
+    </p>
+    <label>Google Sheet URL</label>
+    <input id="gsheet-url-input" type="text" placeholder="https://docs.google.com/spreadsheets/d/…">
+    <label>Sheet Tab Name</label>
+    <input id="gsheet-tab-input" type="text" value="Data" placeholder="Data">
+    <p class="hint">The tab in your Google Sheet that has the participant data (usually "Data")</p>
+    <div class="error-msg" id="gsheet-error"></div>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closeSheetModal()">Cancel</button>
+      <button class="btn-connect" id="gsheet-connect-btn" onclick="connectGoogleSheet()">Connect &amp; Load</button>
+    </div>
+  </div>
+</div>
+
+<div class="results-info">
+  <span id="results-count"></span>
+  <div class="view-toggle">
+    <button class="view-btn active" id="view-list-btn" onclick="setView('list')">☰ List</button>
+    <button class="view-btn" id="view-grid-btn" onclick="setView('grid')">⊞ Grid</button>
+  </div>
+</div>
+
+<div class="participant-list list-view" id="participant-list"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="modal-name"></h2>
+        <p id="modal-subtitle"></p>
+      </div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-grid">
+        <div class="info-item"><label>Division</label><value id="m-division"></value></div>
+        <div class="info-item"><label>Age</label><value id="m-age"></value></div>
+        <div class="info-item"><label>T-Shirt Size</label><value id="m-shirt"></value></div>
+        <div class="info-item"><label>Payment</label><value id="m-payment"></value></div>
+        <div class="info-item"><label>Jamatkhana</label><value id="m-jk"></value></div>
+        <div class="info-item"><label>City</label><value id="m-city"></value></div>
+        <div class="info-item"><label>Phone</label><value id="m-phone"></value></div>
+        <div class="info-item"><label>Email</label><value id="m-email" style="word-break:break-all;"></value></div>
+      </div>
+
+      <div class="info-section">
+        <h3>⚠️ Medical / Allergies</h3>
+        <div class="allergy-box" id="m-allergies"></div>
+      </div>
+
+      <div class="info-section">
+        <h3>🚨 Emergency Contact</h3>
+        <div class="info-grid">
+          <div class="info-item"><label>Name</label><value id="m-ec-name"></value></div>
+          <div class="info-item"><label>Relationship</label><value id="m-ec-rel"></value></div>
+          <div class="info-item"><label>Phone</label><value id="m-ec-phone"></value></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModalBtn()">Close</button>
+      <button class="btn-checkin-modal" id="modal-checkin-btn" onclick="toggleCheckinFromModal()"></button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const PARTICIPANTS_DATA = 
+[
+  {
+    "id": 1,
+    "first": "Shabaz",
+    "last": "Ali",
+    "name": "Shabaz Ali",
+    "age": 34,
+    "dob": "1991-08-08 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin tx",
+    "phone": "(917) 287-8920",
+    "email": "Shabaz.ali9@gmail.com",
+    "allergies": "N-a",
+    "ecFirst": "Salima",
+    "ecLast": "Ali",
+    "ecPhone": "(817) 793-6875",
+    "ecRelationship": "Wife",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 2,
+    "first": "amish",
+    "last": "khowaja",
+    "name": "amish khowaja",
+    "age": 19,
+    "dob": "2006-05-21 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Houston Harvest Green",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Richmond, Tx",
+    "phone": "(512) 506-1928",
+    "email": "Amishkhowaja3@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "areez",
+    "ecLast": "khowaja",
+    "ecPhone": "(512) 999-4584",
+    "ecRelationship": "brother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 3,
+    "first": "Sayaf",
+    "last": "Prasla",
+    "name": "Sayaf Prasla",
+    "age": 12,
+    "dob": "2013-07-15 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio, Texas",
+    "phone": "(210) 360-8473",
+    "email": "nafisaprasla26@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Nafisa",
+    "ecLast": "Prasla",
+    "ecPhone": "(210) 350-8473",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 4,
+    "first": "danial",
+    "last": "kradiya",
+    "name": "danial kradiya",
+    "age": 29,
+    "dob": "1996-05-26 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "San Antonio",
+    "phone": "(210) 852-8139",
+    "email": "dkradiya@gmail.com",
+    "allergies": "Na",
+    "ecFirst": "Sahar",
+    "ecLast": "Dhuca",
+    "ecPhone": "(512) 584-0147",
+    "ecRelationship": "Wife",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 5,
+    "first": "Sani",
+    "last": "Kradiya",
+    "name": "Sani Kradiya",
+    "age": 25,
+    "dob": "2000-11-03 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult 2X L",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio, TX",
+    "phone": "(210) 391-2724",
+    "email": "phad0786@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "danial",
+    "ecLast": "Kradiya",
+    "ecPhone": "(210) 852-8139",
+    "ecRelationship": "brother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 6,
+    "first": "Kiyan",
+    "last": "Mohammad",
+    "name": "Kiyan Mohammad",
+    "age": 19,
+    "dob": "2007-01-31 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Houston Harvest Green",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Richmond TX",
+    "phone": "(281) 300-3864",
+    "email": "kiyanmohammad07@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Anisha",
+    "ecLast": "Mohammad",
+    "ecPhone": "(832) 549-3713",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 7,
+    "first": "Nuhaid",
+    "last": "Bhai",
+    "name": "Nuhaid Bhai",
+    "age": 23,
+    "dob": "2003-02-13 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Houston Principal",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Sugar Land, Texas",
+    "phone": "(832) 766-5178",
+    "email": "bhainuhaid@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Naail",
+    "ecLast": "Bhai",
+    "ecPhone": "(713) 505-9285",
+    "ecRelationship": "Brother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 8,
+    "first": "Asaad",
+    "last": "Dhuka",
+    "name": "Asaad Dhuka",
+    "age": 25,
+    "dob": "2000-05-31 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(830) 765-3073",
+    "email": "adhuka00@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shaz",
+    "ecLast": "Ali",
+    "ecPhone": "(832) 769-7429",
+    "ecRelationship": "Cousin",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 9,
+    "first": "Kas",
+    "last": "Kara",
+    "name": "Kas Kara",
+    "age": 24,
+    "dob": "2001-08-06 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult 2X L",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(210) 970-8888",
+    "email": "Kkara4976@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Tabreez",
+    "ecLast": "Kara",
+    "ecPhone": "(210) 990-5555",
+    "ecRelationship": "Sister",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 10,
+    "first": "Ammar",
+    "last": "Lokhandwala",
+    "name": "Ammar Lokhandwala",
+    "age": 25,
+    "dob": "2000-09-12 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio, Texas",
+    "phone": "(210) 744-5302",
+    "email": "ammarlok12@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Laila",
+    "ecLast": "Lokhandwala",
+    "ecPhone": "(210) 559-0470",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 11,
+    "first": "Ashaiz",
+    "last": "Maredia",
+    "name": "Ashaiz Maredia",
+    "age": 17,
+    "dob": "2009-03-30 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander",
+    "phone": "(512) 987-0720",
+    "email": "ashaizmaredia38@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Zara",
+    "ecLast": "Maredia",
+    "ecPhone": "(512) 576-9460",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 12,
+    "first": "Rumi",
+    "last": "Ali",
+    "name": "Rumi Ali",
+    "age": 12,
+    "dob": "2013-08-20 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio,tx",
+    "phone": "(832) 704-1212",
+    "email": "Sanroseali@live.com",
+    "allergies": "N/A",
+    "ecFirst": "Sanrose",
+    "ecLast": "Ali",
+    "ecPhone": "(832) 704-1212",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 13,
+    "first": "Ismail",
+    "last": "Ali",
+    "name": "Ismail Ali",
+    "age": 12,
+    "dob": "2013-08-29 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(832) 978-2089",
+    "email": "Ismailionaire@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Sarfaraz",
+    "ecLast": "Ali",
+    "ecPhone": "(832) 359-6799",
+    "ecRelationship": "Father",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 14,
+    "first": "Shabana",
+    "last": "Momin",
+    "name": "Shabana Momin",
+    "age": 12,
+    "dob": "2014-02-02 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth X Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin",
+    "phone": "(512) 743-1190",
+    "email": "shabanasmomin@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Shabana",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 743-1190",
+    "ecRelationship": "Mom",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 15,
+    "first": "Arsh",
+    "last": "Dauwa",
+    "name": "Arsh Dauwa",
+    "age": 22,
+    "dob": "2003-04-01 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Houston Harvest Green",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Sugar Land",
+    "phone": "(281) 716-7705",
+    "email": "arshdauwa04@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Azmina",
+    "ecLast": "Dauwa",
+    "ecPhone": "(281) 854-9107",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 16,
+    "first": "Shaaz",
+    "last": "lalani",
+    "name": "Shaaz lalani",
+    "age": 22,
+    "dob": "2003-04-16 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(713) 340-7470",
+    "email": "lalanishaaz@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shama",
+    "ecLast": "Lalani",
+    "ecPhone": "(832) 283-2505",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 17,
+    "first": "Shad",
+    "last": "Momim",
+    "name": "Shad Momim",
+    "age": 22,
+    "dob": "2003-10-20 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin,Texas",
+    "phone": "(512) 903-8738",
+    "email": "Shadmomin11@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Mehdi",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 669-1533",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 18,
+    "first": "Zoysh",
+    "last": "KAREDIA",
+    "name": "Zoysh KAREDIA",
+    "age": 12,
+    "dob": "2013-10-01 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Cedar Park",
+    "phone": "(281) 683-7550",
+    "email": "shabnams1984@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shabnam",
+    "ecLast": "Prasala",
+    "ecPhone": "(281) 683-7550",
+    "ecRelationship": "Mom",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 19,
+    "first": "Sharick",
+    "last": "Chagani",
+    "name": "Sharick Chagani",
+    "age": 20,
+    "dob": "2005-04-27 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(469) 262-9844",
+    "email": "Sharick598@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shalina",
+    "ecLast": "Chagani",
+    "ecPhone": "(469) 951-7824",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 20,
+    "first": "Tabbish",
+    "last": "Ali",
+    "name": "Tabbish Ali",
+    "age": 20,
+    "dob": "2005-06-11 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin,Tx",
+    "phone": "(682) 248-7006",
+    "email": "tabbish11@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Amin",
+    "ecLast": "Ali",
+    "ecPhone": "(817) 501-2611",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "Yes"
+  },
+  {
+    "id": 21,
+    "first": "Mahir",
+    "last": "Maknojia",
+    "name": "Mahir Maknojia",
+    "age": 20,
+    "dob": "2005-04-08 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Houston Principal",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Sugarland, Texas",
+    "phone": "(832) 419-1115",
+    "email": "mahir.maknojia12@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shama",
+    "ecLast": "Maknojia",
+    "ecPhone": "(832) 630-9743",
+    "ecRelationship": "mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 22,
+    "first": "Shehzer",
+    "last": "Maredia",
+    "name": "Shehzer Maredia",
+    "age": 17,
+    "dob": "2008-06-11 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander, TX",
+    "phone": "(512) 995-8847",
+    "email": "shehzermaredia@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Saleem",
+    "ecLast": "Maredia",
+    "ecPhone": "(512) 577-3231",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 23,
+    "first": "Aalim",
+    "last": "Prasla",
+    "name": "Aalim Prasla",
+    "age": 18,
+    "dob": "2008-02-29 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(512) 709-9908",
+    "email": "aalimprasla@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Asif",
+    "ecLast": "Prasla",
+    "ecPhone": "(512) 521-2723",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 24,
+    "first": "Humair",
+    "last": "Jawer",
+    "name": "Humair Jawer",
+    "age": 22,
+    "dob": "2003-03-03 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Sugar Land",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(832) 652-0867",
+    "email": "humair.jawer@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Yasmin",
+    "ecLast": "Jawer",
+    "ecPhone": "(832) 766-0575",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 25,
+    "first": "Afi",
+    "last": "Samnani",
+    "name": "Afi Samnani",
+    "age": 12,
+    "dob": "May 10, 2013",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin Texas",
+    "phone": "(737) 217-1574",
+    "email": "aasamnani@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Amin",
+    "ecLast": "Samnani",
+    "ecPhone": "(512) 576-8048",
+    "ecRelationship": "Dad",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 26,
+    "first": "Ali",
+    "last": "Kabani",
+    "name": "Ali Kabani",
+    "age": 25,
+    "dob": "2000-11-09 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(469) 432-0681",
+    "email": "akabani119@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Gulzar",
+    "ecLast": "Kabani",
+    "ecPhone": "(214) 476-4531",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 27,
+    "first": "Subhaan",
+    "last": "Ali",
+    "name": "Subhaan Ali",
+    "age": 19,
+    "dob": "2007-01-22 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Sugar Land",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Sugar Land, TX",
+    "phone": "(713) 344-5472",
+    "email": "subhaanali58@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Rosemin",
+    "ecLast": "Ali",
+    "ecPhone": "(713) 553-6161",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "Yes"
+  },
+  {
+    "id": 28,
+    "first": "Shayan",
+    "last": "Maredia",
+    "name": "Shayan Maredia",
+    "age": 20,
+    "dob": "2006-01-07 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin",
+    "phone": "(512) 586-6093",
+    "email": "fancyshayan@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Jasmin",
+    "ecLast": "Maredia",
+    "ecPhone": "(512) 947-1265",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 29,
+    "first": "Rehan",
+    "last": "Charania",
+    "name": "Rehan Charania",
+    "age": 12,
+    "dob": "Jul 29, 2013",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio",
+    "phone": "(501) 786-7148",
+    "email": "Sofiachsrania@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Sofia",
+    "ecLast": "Charania",
+    "ecPhone": "(501) 786-7148",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 30,
+    "first": "Shakil",
+    "last": "Prasla",
+    "name": "Shakil Prasla",
+    "age": 39,
+    "dob": "1986-06-06 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander",
+    "phone": "(512) 577-0090",
+    "email": "Shakilprasla@gmail.com",
+    "allergies": "No",
+    "ecFirst": "Zahra",
+    "ecLast": "Prasla",
+    "ecPhone": "(954) 628-6771",
+    "ecRelationship": "Wife",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 31,
+    "first": "Shabd",
+    "last": "Maredia",
+    "name": "Shabd Maredia",
+    "age": 12,
+    "dob": "Jun 03, 2013",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio,Texas",
+    "phone": "(832) 704-3792",
+    "email": "Shabarahim1@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Rahim",
+    "ecLast": "Maredia",
+    "ecPhone": "(832) 704-3792",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 32,
+    "first": "Moez",
+    "last": "Khanmohamed",
+    "name": "Moez Khanmohamed",
+    "age": 33,
+    "dob": "1992-06-17 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(737) 781-9009",
+    "email": "moezkhanmohamed@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shriya",
+    "ecLast": "Khanmohamed",
+    "ecPhone": "(737) 333-4391",
+    "ecRelationship": "Wife",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 33,
+    "first": "Zeeshan",
+    "last": "Nansy",
+    "name": "Zeeshan Nansy",
+    "age": 37,
+    "dob": "1988-11-04 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander",
+    "phone": "(512) 586-9162",
+    "email": "Zeeshan.nansy1@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Sophia",
+    "ecLast": "Kassim",
+    "ecPhone": "(205) 441-3329",
+    "ecRelationship": "Wife",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 34,
+    "first": "Aarush",
+    "last": "Maredia",
+    "name": "Aarush Maredia",
+    "age": 12,
+    "dob": "May 12, 2013",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio",
+    "phone": "(832) 497-7700",
+    "email": "Taranum07@gmail.com",
+    "allergies": "None\nFrench bread",
+    "ecFirst": "Moiz",
+    "ecLast": "Maredia",
+    "ecPhone": "(832) 461-3119",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 35,
+    "first": "zaid",
+    "last": "momin",
+    "name": "zaid momin",
+    "age": 19,
+    "dob": "2006-04-20 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Richmond",
+    "phone": "(832) 573-5816",
+    "email": "zaidmomin49@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "minaz",
+    "ecLast": "momin",
+    "ecPhone": "(832) 276-1975",
+    "ecRelationship": "mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 36,
+    "first": "Zidaan",
+    "last": "Hirani",
+    "name": "Zidaan Hirani",
+    "age": 13,
+    "dob": "2012-07-10 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(480) 707-9127",
+    "email": "Soniya.Isani@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Soniya",
+    "ecLast": "Hirani",
+    "ecPhone": "(480) 707-9129",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 37,
+    "first": "Azfar",
+    "last": "Momin",
+    "name": "Azfar Momin",
+    "age": 17,
+    "dob": "2007-06-09 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Houston Headquarters",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "TX",
+    "phone": "(832) 820-3318",
+    "email": "Azfarmomin09@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Rubina",
+    "ecLast": "Momin",
+    "ecPhone": "(832) 276-2932",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 38,
+    "first": "Ahad",
+    "last": "Jaffer",
+    "name": "Ahad Jaffer",
+    "age": 13,
+    "dob": "2012-08-16 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin,TX",
+    "phone": "(216) 209-3678",
+    "email": "ub.khuwaja@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Urooj",
+    "ecLast": "Jaffer",
+    "ecPhone": "(216) 209-3678",
+    "ecRelationship": "Mom",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 39,
+    "first": "Asif",
+    "last": "Lira",
+    "name": "Asif Lira",
+    "age": 38,
+    "dob": "1987-09-16 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(954) 257-5214",
+    "email": "Asif.lira@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Amrita",
+    "ecLast": "Lira",
+    "ecPhone": "(512) 206-6885",
+    "ecRelationship": "Wife",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 40,
+    "first": "Azhar",
+    "last": "Virani",
+    "name": "Azhar Virani",
+    "age": 31,
+    "dob": "1994-12-26 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin Tx",
+    "phone": "(972) 514-9397",
+    "email": "Azharv23@gmail.com",
+    "allergies": "Penicillin",
+    "ecFirst": "Sahar",
+    "ecLast": "Virani",
+    "ecPhone": "(281) 995-9900",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 41,
+    "first": "Anif",
+    "last": "Karovaliya",
+    "name": "Anif Karovaliya",
+    "age": 38,
+    "dob": "1988-02-20 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(512) 206-6884",
+    "email": "anifk20@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Anum",
+    "ecLast": "Karovaliya",
+    "ecPhone": "(469) 396-4870",
+    "ecRelationship": "Wife",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 42,
+    "first": "Izaan",
+    "last": "Karedia",
+    "name": "Izaan Karedia",
+    "age": 18,
+    "dob": "2007-09-10 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Cedar park, Texas",
+    "phone": "(512) 975-1260",
+    "email": "Izaan.karedia@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Imran",
+    "ecLast": "Karedia",
+    "ecPhone": "(512) 845-1807",
+    "ecRelationship": "Father",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 43,
+    "first": "Arsalaan",
+    "last": "Maknojia",
+    "name": "Arsalaan Maknojia",
+    "age": 26,
+    "dob": "1999-09-26 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Leander Texas",
+    "phone": "(979) 645-0462",
+    "email": "arsalaanmaknojia4@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Amir",
+    "ecLast": "Maknojia",
+    "ecPhone": "(979) 422-4113",
+    "ecRelationship": "Dad",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 44,
+    "first": "Barraq",
+    "last": "Ali",
+    "name": "Barraq Ali",
+    "age": 20,
+    "dob": "2005-04-15 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Sugar Land",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(321) 310-4226",
+    "email": "barraqali45@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Jalila",
+    "ecLast": "Ali",
+    "ecPhone": "(407) 595-1830",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 45,
+    "first": "Aymaan",
+    "last": "Pirani",
+    "name": "Aymaan Pirani",
+    "age": 19,
+    "dob": "2006-05-19 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "TX",
+    "phone": "(713) 380-6308",
+    "email": "Aymaan2006@gmail.com",
+    "allergies": "Minor Achilles Tendinitis",
+    "ecFirst": "Kashish",
+    "ecLast": "Lalmohammed",
+    "ecPhone": "(713) 265-8557",
+    "ecRelationship": "Girlfriend",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 46,
+    "first": "Alif",
+    "last": "Mahesania",
+    "name": "Alif Mahesania",
+    "age": 26,
+    "dob": "1999-08-02 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(512) 363-6068",
+    "email": "alifmahesania@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Naeem",
+    "ecLast": "Mahesania",
+    "ecPhone": "(512) 736-8283",
+    "ecRelationship": "Brother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 47,
+    "first": "Ishan",
+    "last": "Nathani",
+    "name": "Ishan Nathani",
+    "age": 23,
+    "dob": "2002-06-18 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Houston Principal",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Sugar Land, Texas",
+    "phone": "(832) 520-0268",
+    "email": "Ishannathani2002@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Jasmin",
+    "ecLast": "Nathani",
+    "ecPhone": "(832) 533-7286",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 48,
+    "first": "Munaf",
+    "last": "Maredia",
+    "name": "Munaf Maredia",
+    "age": 35,
+    "dob": "1990-11-21 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Schertz, TX",
+    "phone": "(512) 825-0876",
+    "email": "mmaredia21@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Karim",
+    "ecLast": "Maredia",
+    "ecPhone": "(512) 423-4359",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 49,
+    "first": "Faizaan",
+    "last": "Ali",
+    "name": "Faizaan Ali",
+    "age": 13,
+    "dob": "2012-06-19 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Round Rock, Texas",
+    "phone": "(512) 554-4544",
+    "email": "zehramoosa@hotmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Zehra",
+    "ecLast": "Moosa",
+    "ecPhone": "(512) 554-4544",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 50,
+    "first": "Zeriq",
+    "last": "Momin",
+    "name": "Zeriq Momin",
+    "age": 13,
+    "dob": "2012-06-27 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Ceder park texas",
+    "phone": "(512) 364-1834",
+    "email": "Zeriqmomin@icloud.com",
+    "allergies": "N/a",
+    "ecFirst": "Jasmin",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 293-4600",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 51,
+    "first": "Adam",
+    "last": "Hirani",
+    "name": "Adam Hirani",
+    "age": 26,
+    "dob": "1999-08-12 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(210) 846-0665",
+    "email": "adamhirani07@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Abeida",
+    "ecLast": "Hirani",
+    "ecPhone": "(210) 884-9911",
+    "ecRelationship": "Parent",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 52,
+    "first": "Aziel",
+    "last": "Umatiya",
+    "name": "Aziel Umatiya",
+    "age": 13,
+    "dob": "2012-07-24 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin Tx",
+    "phone": "(512) 927-7113",
+    "email": "maknojia_asmita@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Abid",
+    "ecLast": "Umatiya",
+    "ecPhone": "(512) 300-9990",
+    "ecRelationship": "Dad",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 53,
+    "first": "Zayan Alihusein",
+    "last": "Prasla",
+    "name": "Zayan Alihusein Prasla",
+    "age": 13,
+    "dob": "2013-02-27 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander Texas",
+    "phone": "(512) 586-5248",
+    "email": "prasla.shabana@gmail.com",
+    "allergies": "nut and environmental allergies",
+    "ecFirst": "Shabana",
+    "ecLast": "Prasla",
+    "ecPhone": "(512) 586-5248",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 54,
+    "first": "Saif JP",
+    "last": "Momin",
+    "name": "Saif JP Momin",
+    "age": 31,
+    "dob": "1994-05-20 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin",
+    "phone": "(512) 850-3061",
+    "email": "smomin942@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Anika",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 903-3545",
+    "ecRelationship": "Wife",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 55,
+    "first": "Ashar",
+    "last": "Farishta",
+    "name": "Ashar Farishta",
+    "age": 13,
+    "dob": "2012-08-25 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio",
+    "phone": "(916) 613-0213",
+    "email": "zeenatfarishta@hotmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shehzad",
+    "ecLast": "Farishta",
+    "ecPhone": "(214) 492-3219",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 56,
+    "first": "Irshad",
+    "last": "Hakemy",
+    "name": "Irshad Hakemy",
+    "age": 19,
+    "dob": "2006-05-23 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Tx",
+    "phone": "(817) 808-6766",
+    "email": "irshadha41@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Zarifa",
+    "ecLast": "Hakemy",
+    "ecPhone": "(214) 334-3194",
+    "ecRelationship": "mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 57,
+    "first": "Zayan",
+    "last": "Karovalia",
+    "name": "Zayan Karovalia",
+    "age": 13,
+    "dob": "2012-05-20 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander Texas",
+    "phone": "(737) 334-9153",
+    "email": "Aslamkarovalia80@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Aslam",
+    "ecLast": "Karovalia",
+    "ecPhone": "(512) 775-6657",
+    "ecRelationship": "Father",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 58,
+    "first": "Abeer",
+    "last": "Amin",
+    "name": "Abeer Amin",
+    "age": 17,
+    "dob": "2008-10-16 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin,Texas",
+    "phone": "(512) 773-8400",
+    "email": "abeeratiq.2008@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Amin",
+    "ecLast": "Ali",
+    "ecPhone": "(916) 603-9529",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "Yes"
+  },
+  {
+    "id": 59,
+    "first": "Shaz",
+    "last": "Ali",
+    "name": "Shaz Ali",
+    "age": 28,
+    "dob": "1997-06-30 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(832) 769-7429",
+    "email": "Shaz.ali1997@gmail.com",
+    "allergies": "Missing first 2 weeks",
+    "ecFirst": "Ahad",
+    "ecLast": "Ali",
+    "ecPhone": "(713) 480-1340",
+    "ecRelationship": "Brother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 60,
+    "first": "Arsh",
+    "last": "Mahesaniya",
+    "name": "Arsh Mahesaniya",
+    "age": 19,
+    "dob": "2006-04-14 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin Texas",
+    "phone": "(512) 566-2315",
+    "email": "Arshmahesaniya321@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Ruknuddin",
+    "ecLast": "Mahesaniya",
+    "ecPhone": "(512) 576-1895",
+    "ecRelationship": "Dad",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 61,
+    "first": "Azig",
+    "last": "Mohammed",
+    "name": "Azig Mohammed",
+    "age": 13,
+    "dob": "Apr 12, 2013",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth X Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander",
+    "phone": "(512) 825-4127",
+    "email": "zass786@yahoo.co.in",
+    "allergies": "N/A",
+    "ecFirst": "Zasmita",
+    "ecLast": "Maknojiya",
+    "ecPhone": "(512) 825-4127",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 62,
+    "first": "Suhaan",
+    "last": "Lalani",
+    "name": "Suhaan Lalani",
+    "age": 13,
+    "dob": "Dec 26, 2012",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth X Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Round Rock, TX",
+    "phone": "(512) 351-2400",
+    "email": "Ans2011@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Sohail",
+    "ecLast": "Lalani",
+    "ecPhone": "(737) 333-8333",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 63,
+    "first": "Arhaan Khan",
+    "last": "Surani",
+    "name": "Arhaan Khan Surani",
+    "age": 13,
+    "dob": "Nov 28, 2012",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio",
+    "phone": "(210) 875-8462",
+    "email": "shanila.surani20@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Amin",
+    "ecLast": "Surani",
+    "ecPhone": "(726) 220-0046",
+    "ecRelationship": "Father",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 64,
+    "first": "Sahir",
+    "last": "Sayani",
+    "name": "Sahir Sayani",
+    "age": 27,
+    "dob": "1999-03-24 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio, TX",
+    "phone": "(210) 818-5525",
+    "email": "sahirsayani1@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Sarah",
+    "ecLast": "Thawerbhoy",
+    "ecPhone": "(210) 209-2671",
+    "ecRelationship": "Gf",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 65,
+    "first": "Aamil",
+    "last": "Momin",
+    "name": "Aamil Momin",
+    "age": 19,
+    "dob": "2006-06-12 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin, TX",
+    "phone": "(512) 549-1918",
+    "email": "Aamilmomin0612@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Asif",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 573-3980",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 66,
+    "first": "Ahil",
+    "last": "Ali",
+    "name": "Ahil Ali",
+    "age": 20,
+    "dob": "2006-01-14 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Small",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "San Antonio, Texas",
+    "phone": "(210) 993-2950",
+    "email": "ahilali2468@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shayan",
+    "ecLast": "Ali",
+    "ecPhone": "(210) 577-0310",
+    "ecRelationship": "Brother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 67,
+    "first": "Nahir",
+    "last": "Karimi",
+    "name": "Nahir Karimi",
+    "age": 22,
+    "dob": "2004-02-14 00:00:00",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Youth Medium",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(559) 623-2431",
+    "email": "nahirkarimi3@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Salima",
+    "ecLast": "Karimi",
+    "ecPhone": "(559) 786-9709",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 68,
+    "first": "Hannah",
+    "last": "Pirani",
+    "name": "Hannah Pirani",
+    "age": 13,
+    "dob": "Jun 23, 2012",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "San Antonio, tx",
+    "phone": "(210) 396-1899",
+    "email": "Anilaali786@yahoo.com",
+    "allergies": "N/a",
+    "ecFirst": "Anila",
+    "ecLast": "Ali",
+    "ecPhone": "(210) 396-1899",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 69,
+    "first": "Abyan",
+    "last": "Prasla",
+    "name": "Abyan Prasla",
+    "age": 13,
+    "dob": "Jan 24, 2013",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Cedar park, tx",
+    "phone": "(832) 495-6653",
+    "email": "azizarch@yahoo.com",
+    "allergies": "All Nuts allergies",
+    "ecFirst": "Aziz",
+    "ecLast": "Prasla",
+    "ecPhone": "(832) 495-6653",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 70,
+    "first": "Aariz",
+    "last": "Hemani",
+    "name": "Aariz Hemani",
+    "age": 14,
+    "dob": "2012-02-14 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio texas",
+    "phone": "(956) 110-9647",
+    "email": "nhemani2173@gmail.com",
+    "allergies": "Nuts and pecans",
+    "ecFirst": "Nahid",
+    "ecLast": "Hemani",
+    "ecPhone": "(956) 220-9647",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 71,
+    "first": "Ziyan",
+    "last": "Tejani",
+    "name": "Ziyan Tejani",
+    "age": 28,
+    "dob": "Apr 06, 1997",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "San Antonio texas",
+    "phone": "(210) 259-9540",
+    "email": "ziyan1tejani@gmail.com",
+    "allergies": "Na",
+    "ecFirst": "danial",
+    "ecLast": "kradiya",
+    "ecPhone": "(210) 852-8139",
+    "ecRelationship": "Friend",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 72,
+    "first": "Mubin",
+    "last": "Momin",
+    "name": "Mubin Momin",
+    "age": 33,
+    "dob": "Jan 24, 1993",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin TX",
+    "phone": "(210) 875-6984",
+    "email": "mmomin11@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Sana",
+    "ecLast": "Rajani",
+    "ecPhone": "(469) 230-4896",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 73,
+    "first": "Aliniyaz",
+    "last": "Mohammad",
+    "name": "Aliniyaz Mohammad",
+    "age": 14,
+    "dob": "2011-09-14 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio, TX",
+    "phone": "(210) 275-8002",
+    "email": "zohraali38@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Zohra",
+    "ecLast": "Ali",
+    "ecPhone": "(404) 563-5400",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 74,
+    "first": "Rayyan",
+    "last": "Noorani",
+    "name": "Rayyan Noorani",
+    "age": 14,
+    "dob": "2012-01-11 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Georgetown, Texas",
+    "phone": "(512) 775-0738",
+    "email": "shabananoorani@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shabana",
+    "ecLast": "Noorani",
+    "ecPhone": "(512) 775-0738",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 75,
+    "first": "Mubin",
+    "last": "Maredia",
+    "name": "Mubin Maredia",
+    "age": 32,
+    "dob": "Apr 21, 1993",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(210) 995-9554",
+    "email": "mubinmaredia@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Tanvi",
+    "ecLast": "Kanjiyani",
+    "ecPhone": "(210) 632-9968",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 76,
+    "first": "Saeem",
+    "last": "Momin",
+    "name": "Saeem Momin",
+    "age": 34,
+    "dob": "Jan 28, 1992",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Houston Headquarters",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "TX",
+    "phone": "(210) 995-3711",
+    "email": "Saeem7652@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Zahra",
+    "ecLast": "Ali",
+    "ecPhone": "(281) 323-0635",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 77,
+    "first": "Zain",
+    "last": "Tejani",
+    "name": "Zain Tejani",
+    "age": 34,
+    "dob": "Feb 13, 1992",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio, TX",
+    "phone": "(210) 413-8897",
+    "email": "zaintejani12@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Zain",
+    "ecLast": "Tejani",
+    "ecPhone": "(210) 413-8897",
+    "ecRelationship": "Self",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 78,
+    "first": "Sameer",
+    "last": "Merchant",
+    "name": "Sameer Merchant",
+    "age": 38,
+    "dob": "Sep 01, 1987",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Houston Principal",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Richmond",
+    "phone": "(281) 236-4801",
+    "email": "smerchant0901@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Naveed",
+    "ecLast": "Merchant",
+    "ecPhone": "(281) 236-4801",
+    "ecRelationship": "Brother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 79,
+    "first": "Shan",
+    "last": "Panjwani",
+    "name": "Shan Panjwani",
+    "age": 22,
+    "dob": "Oct 21, 2003",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Tx",
+    "phone": "(713) 320-4155",
+    "email": "shan.panjwani03@gmail.com",
+    "allergies": "Na",
+    "ecFirst": "Adam",
+    "ecLast": "Panjwani",
+    "ecPhone": "(281) 883-8744",
+    "ecRelationship": "Brother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 80,
+    "first": "Sunil",
+    "last": "Lakhani",
+    "name": "Sunil Lakhani",
+    "age": 32,
+    "dob": "Sep 05, 1993",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult 2X L",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio, TX",
+    "phone": "(210) 324-9545",
+    "email": "ssspurs@gmail.com",
+    "allergies": "Will miss week 2 and maybe week 1.",
+    "ecFirst": "Anita",
+    "ecLast": "Lakhani",
+    "ecPhone": "(832) 285-6133",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 81,
+    "first": "Mohib",
+    "last": "Nawab",
+    "name": "Mohib Nawab",
+    "age": 36,
+    "dob": "Jan 01, 1990",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(682) 433-9724",
+    "email": "Mohibmnawab@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Zabin",
+    "ecLast": "Marediya",
+    "ecPhone": "(409) 748-9032",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 82,
+    "first": "Nabi",
+    "last": "Prasla",
+    "name": "Nabi Prasla",
+    "age": 14,
+    "dob": "2011-08-19 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin Texas",
+    "phone": "(512) 773-7152",
+    "email": "Nabiprasla12@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Asif",
+    "ecLast": "Prasla",
+    "ecPhone": "(512) 521-2723",
+    "ecRelationship": "Dad",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 83,
+    "first": "Alain",
+    "last": "Rathod",
+    "name": "Alain Rathod",
+    "age": 14,
+    "dob": "Jul 21, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin, texas",
+    "phone": "(737) 340-0680",
+    "email": "Soniyarathod03@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Anil",
+    "ecLast": "Rathod",
+    "ecPhone": "(512) 632-4823",
+    "ecRelationship": "Dad",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 84,
+    "first": "Azaan",
+    "last": "Karedia",
+    "name": "Azaan Karedia",
+    "age": 14,
+    "dob": "Dec 16, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Youth Large",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin",
+    "phone": "(737) 342-3774",
+    "email": "Karediaazaan@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Javed",
+    "ecLast": "Karedia",
+    "ecPhone": "(512) 919-6782",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 85,
+    "first": "Izaan Dhuka",
+    "last": "Izaan Dhuka",
+    "name": "Izaan Dhuka Izaan Dhuka",
+    "age": 14,
+    "dob": "Aug 02, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander TX",
+    "phone": "(737) 333-2602",
+    "email": "Izaandhuka@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Tanvir Dhuka",
+    "ecLast": "Tanvir Dhuka",
+    "ecPhone": "(512) 300-9191",
+    "ecRelationship": "Dad",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 86,
+    "first": "Almir",
+    "last": "Muhammad",
+    "name": "Almir Muhammad",
+    "age": 14,
+    "dob": "Jul 21, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander,TX",
+    "phone": "(737) 334-7882",
+    "email": "almir_muhammad82@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Almir",
+    "ecLast": "Muhammad",
+    "ecPhone": "(512) 909-1060",
+    "ecRelationship": "Mom",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 87,
+    "first": "Sam",
+    "last": "Kaurn",
+    "name": "Sam Kaurn",
+    "age": 14,
+    "dob": "Apr 09, 2012",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin Tx",
+    "phone": "(512) 967-7534",
+    "email": "Sam@yahoo.com",
+    "allergies": "R",
+    "ecFirst": "Jiva",
+    "ecLast": "Mak",
+    "ecPhone": "(512) 561-2009",
+    "ecRelationship": "Dad",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 88,
+    "first": "Alain",
+    "last": "Rathod",
+    "name": "Alain Rathod",
+    "age": 14,
+    "dob": "Jul 21, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander, Texas",
+    "phone": "(737) 340-0680",
+    "email": "Soniyarathod03@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Anil",
+    "ecLast": "Rathod",
+    "ecPhone": "(512) 632-4823",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 89,
+    "first": "Ayaan",
+    "last": "Poonawala",
+    "name": "Ayaan Poonawala",
+    "age": 20,
+    "dob": "Dec 04, 2005",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin TX",
+    "phone": "(210) 716-2333",
+    "email": "ayaanpoonawala0@gmail.com",
+    "allergies": "Na",
+    "ecFirst": "Murad",
+    "ecLast": "Poonawala",
+    "ecPhone": "(913) 707-5859",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 90,
+    "first": "Taawil",
+    "last": "Momin",
+    "name": "Taawil Momin",
+    "age": 14,
+    "dob": "Nov 21, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San Antonio,Texas",
+    "phone": "(210) 630-0670",
+    "email": "Anishahakeem21@gmail.com",
+    "allergies": "Ibuprofen, advil, penicillin",
+    "ecFirst": "Hakeem",
+    "ecLast": "Momin",
+    "ecPhone": "(210) 630-0687",
+    "ecRelationship": "Parent/Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 91,
+    "first": "Samad",
+    "last": "Virani",
+    "name": "Samad Virani",
+    "age": 28,
+    "dob": "Apr 22, 1997",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(281) 865-7378",
+    "email": "virani.samad@gmail.com",
+    "allergies": "3 ankle surgeries but should have no issues",
+    "ecFirst": "Alvina",
+    "ecLast": "Rana",
+    "ecPhone": "(832) 403-6691",
+    "ecRelationship": "Wife",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 92,
+    "first": "Izaan",
+    "last": "Momin",
+    "name": "Izaan Momin",
+    "age": 14,
+    "dob": "Dec 29, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "San Antonio",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "San, Antonio",
+    "phone": "(210) 548-6716",
+    "email": "rozinaprasla@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Rozina",
+    "ecLast": "Prasala",
+    "ecPhone": "(210) 548-6716",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 93,
+    "first": "Ivaan",
+    "last": "Jivani",
+    "name": "Ivaan Jivani",
+    "age": 15,
+    "dob": "2010-09-13 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander, Texas",
+    "phone": "(404) 647-9865",
+    "email": "ivaanumatiya356@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Munira",
+    "ecLast": "Gillani",
+    "ecPhone": "(404) 934-6204",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 94,
+    "first": "Isaac",
+    "last": "Maredia",
+    "name": "Isaac Maredia",
+    "age": 15,
+    "dob": "2011-03-07 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander, Texas",
+    "phone": "(512) 925-6298",
+    "email": "Marediaisaac@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Roshan",
+    "ecLast": "Maredia",
+    "ecPhone": "(512) 825-4350",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 95,
+    "first": "Abyan",
+    "last": "Karedia",
+    "name": "Abyan Karedia",
+    "age": 15,
+    "dob": "2010-07-14 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Cedar Park, Texas",
+    "phone": "(512) 769-2381",
+    "email": "abyankaredia@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Imran",
+    "ecLast": "Karedia",
+    "ecPhone": "(512) 845-1807",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 96,
+    "first": "Subhaan",
+    "last": "Ali",
+    "name": "Subhaan Ali",
+    "age": 19,
+    "dob": "Jan 22, 2007",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Houston Principal",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Sugar Land, TX",
+    "phone": "(713) 344-5472",
+    "email": "subhaanali58@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Rose",
+    "ecLast": "Ali",
+    "ecPhone": "(713) 553-6161",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 97,
+    "first": "Aarav",
+    "last": "Umatiya",
+    "name": "Aarav Umatiya",
+    "age": 15,
+    "dob": "Apr 29, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin TX",
+    "phone": "(512) 554-2210",
+    "email": "zenali80@yahoo.com",
+    "allergies": "N/A",
+    "ecFirst": "Sayaroz",
+    "ecLast": "Umatiya",
+    "ecPhone": "(512) 992-3176",
+    "ecRelationship": "Mom",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 98,
+    "first": "Zaid",
+    "last": "Maknojiya",
+    "name": "Zaid Maknojiya",
+    "age": 15,
+    "dob": "Sep 06, 2010",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Cedar Park, Texas",
+    "phone": "(512) 287-9069",
+    "email": "Zaidmak2010@gmail.com",
+    "allergies": "Allergic to all nuts, and lentils.",
+    "ecFirst": "Sadikali",
+    "ecLast": "Maknojiya",
+    "ecPhone": "(512) 905-7869",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 99,
+    "first": "Zaid",
+    "last": "Maknojiya",
+    "name": "Zaid Maknojiya",
+    "age": 15,
+    "dob": "Sep 06, 2010",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Cedar Park, Texas",
+    "phone": "(512) 287-9069",
+    "email": "Zaidmak2010@gmail.com",
+    "allergies": "Allergic to all nuts and lentils",
+    "ecFirst": "Sadikali",
+    "ecLast": "Maknojiya",
+    "ecPhone": "(512) 905-7869",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 100,
+    "first": "Ivan",
+    "last": "Mahesania",
+    "name": "Ivan Mahesania",
+    "age": 15,
+    "dob": "Dec 09, 2010",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Cedar Park, Texas",
+    "phone": "(512) 897-2777",
+    "email": "ivanmahesania@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Imran",
+    "ecLast": "Mahesania",
+    "ecPhone": "(512) 783-2774",
+    "ecRelationship": "Dad",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 101,
+    "first": "Arsh",
+    "last": "Momin",
+    "name": "Arsh Momin",
+    "age": 15,
+    "dob": "Mar 07, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(737) 222-3968",
+    "email": "Arshrules69@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Asmita",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 584-1552",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 102,
+    "first": "Adeev",
+    "last": "Momin",
+    "name": "Adeev Momin",
+    "age": 15,
+    "dob": "Aug 26, 2010",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin Texas",
+    "phone": "(737) 262-6688",
+    "email": "sanobarmomin@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Sanobar",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 924-7581",
+    "ecRelationship": "Mom",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 103,
+    "first": "Nuraz",
+    "last": "Mahesania",
+    "name": "Nuraz Mahesania",
+    "age": 15,
+    "dob": "Jan 17, 2011",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(512) 738-0115",
+    "email": "mahesanianuraz@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Nargis",
+    "ecLast": "Mahesania",
+    "ecPhone": "(512) 289-7316",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 104,
+    "first": "Mirsab",
+    "last": "Ali",
+    "name": "Mirsab Ali",
+    "age": 15,
+    "dob": "Apr 15, 2010",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Leander, TX",
+    "phone": "(512) 297-7541",
+    "email": "mirsabali111@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Saira",
+    "ecLast": "Ali",
+    "ecPhone": "(832) 759-1298",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 105,
+    "first": "Avin",
+    "last": "Momin",
+    "name": "Avin Momin",
+    "age": 15,
+    "dob": "May 14, 2010",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(737) 420-3015",
+    "email": "avinmomin26@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Salina",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 226-3068",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 106,
+    "first": "Shahin",
+    "last": "Ali",
+    "name": "Shahin Ali",
+    "age": 38,
+    "dob": "Oct 20, 1987",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Lago vista, TX",
+    "phone": "(832) 290-9741",
+    "email": "Shahin.ali01@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Summera",
+    "ecLast": "Nansy",
+    "ecPhone": "(512) 947-4306",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 107,
+    "first": "Aalameen",
+    "last": "Panjwani",
+    "name": "Aalameen Panjwani",
+    "age": 19,
+    "dob": "Feb 14, 2007",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Houston Principal",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Houston, Tx",
+    "phone": "(832) 468-2601",
+    "email": "aalameenp@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Nadiya",
+    "ecLast": "Panjwani",
+    "ecPhone": "(832) 398-4443",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "Yes"
+  },
+  {
+    "id": 108,
+    "first": "Ashaiz",
+    "last": "Maredia",
+    "name": "Ashaiz Maredia",
+    "age": 16,
+    "dob": "2009-12-11 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "TX",
+    "phone": "(512) 888-4223",
+    "email": "Ashaiz415@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Saina",
+    "ecLast": "Maredia",
+    "ecPhone": "(512) 351-1382",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 109,
+    "first": "Aariz",
+    "last": "Ali",
+    "name": "Aariz Ali",
+    "age": 16,
+    "dob": "2009-10-29 00:00:00",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(512) 940-5460",
+    "email": "Aarizali09@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Munira",
+    "ecLast": "Bhaidani",
+    "ecPhone": "(512) 751-0404",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 110,
+    "first": "Rofin",
+    "last": "Maknojia",
+    "name": "Rofin Maknojia",
+    "age": 27,
+    "dob": "Dec 17, 1998",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Tx",
+    "phone": "(512) 450-4467",
+    "email": "rmaknojia98@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Remtu",
+    "ecLast": "Maknojia",
+    "ecPhone": "(512) 669-6697",
+    "ecRelationship": "dad",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 111,
+    "first": "Ruhail",
+    "last": "Maknojia",
+    "name": "Ruhail Maknojia",
+    "age": 16,
+    "dob": "Dec 22, 2009",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, Texas",
+    "phone": "(346) 629-9820",
+    "email": "ruhailmaknojia22@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Alwin",
+    "ecLast": "Maknojia",
+    "ecPhone": "(737) 217-7409",
+    "ecRelationship": "Father",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 112,
+    "first": "Keyaan",
+    "last": "Bhandari",
+    "name": "Keyaan Bhandari",
+    "age": 16,
+    "dob": "Jan 08, 2010",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Cedar park TX",
+    "phone": "(512) 903-5003",
+    "email": "keyaanbhandari@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Riaz",
+    "ecLast": "Bhandari",
+    "ecPhone": "(512) 919-9380",
+    "ecRelationship": "Father",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 113,
+    "first": "Zaaym",
+    "last": "Ali",
+    "name": "Zaaym Ali",
+    "age": 16,
+    "dob": "Aug 08, 2009",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "College Station",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "College station, TX",
+    "phone": "(979) 997-5080",
+    "email": "Alizaaym36@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Kashmira",
+    "ecLast": "Ali",
+    "ecPhone": "(979) 422-0564",
+    "ecRelationship": "mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 114,
+    "first": "Nehan",
+    "last": "Maredia",
+    "name": "Nehan Maredia",
+    "age": 16,
+    "dob": "Apr 30, 2009",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(737) 318-1806",
+    "email": "nehanmd22@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Shabana",
+    "ecLast": "Maredia",
+    "ecPhone": "(512) 825-9417",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "No"
+  },
+  {
+    "id": 115,
+    "first": "Amil",
+    "last": "Lakhani",
+    "name": "Amil Lakhani",
+    "age": 25,
+    "dob": "Sep 20, 2000",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Sugar Land",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Dallas tx",
+    "phone": "(469) 428-5942",
+    "email": "Amillakhani786@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Aqil lakhani",
+    "ecLast": "Lakhani",
+    "ecPhone": "(972) 750-0796",
+    "ecRelationship": "Brother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 116,
+    "first": "AK",
+    "last": "Pirvany",
+    "name": "AK Pirvany",
+    "age": 33,
+    "dob": "Jan 08, 1993",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Sugar Land",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Euless, TX",
+    "phone": "(682) 433-3058",
+    "email": "akpirvany@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Noor",
+    "ecLast": "Gulamali",
+    "ecPhone": "(817) 715-1198",
+    "ecRelationship": "Mother",
+    "captain": "Yes",
+    "financialAid": "Yes"
+  },
+  {
+    "id": 117,
+    "first": "Samien",
+    "last": "Momin",
+    "name": "Samien Momin",
+    "age": 16,
+    "dob": "Nov 13, 2009",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(737) 444-0366",
+    "email": "mominsamien@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Khairun-Nisa",
+    "ecLast": "Momin",
+    "ecPhone": "(512) 905-4698",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 118,
+    "first": "Faraaz",
+    "last": "Merchant",
+    "name": "Faraaz Merchant",
+    "age": 18,
+    "dob": "Jan 23, 2008",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Large",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "cedar park, texas",
+    "phone": "(737) 297-1043",
+    "email": "Faraazmerchant330@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Dhruv",
+    "ecLast": "Garg",
+    "ecPhone": "(737) 977-3807",
+    "ecRelationship": "Friend",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 119,
+    "first": "Aly",
+    "last": "Ali",
+    "name": "Aly Ali",
+    "age": 40,
+    "dob": "Jan 14, 1986",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin South",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin, TX",
+    "phone": "(210) 823-0329",
+    "email": "alyali.bba08@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Parveen",
+    "ecLast": "Ali",
+    "ecPhone": "(210) 823-2731",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 120,
+    "first": "Xavian",
+    "last": "Kadiwal",
+    "name": "Xavian Kadiwal",
+    "age": 16,
+    "dob": "Oct 20, 2009",
+    "division": "Juniors (Ages 12-16)",
+    "shirt": "Adult Small",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "cedar park, texas",
+    "phone": "(512) 316-5465",
+    "email": "xaviankadiwal@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Nafisha",
+    "ecLast": "Kadiwal",
+    "ecPhone": "(713) 373-9324",
+    "ecRelationship": "Mother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 121,
+    "first": "Faheem",
+    "last": "Savja",
+    "name": "Faheem Savja",
+    "age": 33,
+    "dob": "Sep 19, 1992",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Paid",
+    "paymentAmount": 75.0,
+    "city": "Austin",
+    "phone": "(512) 962-3009",
+    "email": "faheem.savja@gmail.com",
+    "allergies": "N/a",
+    "ecFirst": "Farah",
+    "ecLast": "Remtulla",
+    "ecPhone": "(226) 972-6351",
+    "ecRelationship": "Spouse",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 122,
+    "first": "Faiz",
+    "last": "Maknojia",
+    "name": "Faiz Maknojia",
+    "age": 23,
+    "dob": "Mar 09, 2003",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult Medium",
+    "jamatkhana": "Austin Cedar Park",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin, Texas",
+    "phone": "(512) 993-5671",
+    "email": "Maknojiaf@gmail.com",
+    "allergies": "N/A",
+    "ecFirst": "Rofin",
+    "ecLast": "Maknojia",
+    "ecPhone": "(512) 450-4467",
+    "ecRelationship": "Brother",
+    "captain": "No",
+    "financialAid": "No"
+  },
+  {
+    "id": 123,
+    "first": "Nabeel",
+    "last": "Merchant",
+    "name": "Nabeel Merchant",
+    "age": 19,
+    "dob": "Jun 03, 2006",
+    "division": "Adults (Ages 17+)",
+    "shirt": "Adult X Large",
+    "jamatkhana": "Austin Downtown",
+    "paymentStatus": "Unpaid",
+    "paymentAmount": 0,
+    "city": "Austin Texas",
+    "phone": "(214) 404-3238",
+    "email": "nabeelmerchant36@gmail.com",
+    "allergies": "Na",
+    "ecFirst": "Shabana",
+    "ecLast": "Merchant",
+    "ecPhone": "(214) 208-5853",
+    "ecRelationship": "Mom",
+    "captain": "No",
+    "financialAid": "Yes"
+  }
+]
+;
+
+const TOURNAMENT_DATES = ['Apr 5, 2026', 'Apr 12, 2026', 'Apr 19, 2026', 'Apr 26, 2026'];
+
+// ── GOOGLE SHEET LIVE CONNECTION ──────────────────────────────────────────────
+const ROSTER_KEY      = 'hoopitup_roster_v1';
+const ROSTER_META_KEY = 'hoopitup_roster_meta';
+const GSHEET_CONN_KEY = 'hoopitup_gsheet_conn';
+
+function saveRosterToStorage(data, meta) {
+  try {
+    localStorage.setItem(ROSTER_KEY, JSON.stringify(data));
+    localStorage.setItem(ROSTER_META_KEY, JSON.stringify(meta));
+  } catch(e) {}
+}
+
+function loadRosterFromStorage() {
+  try {
+    const saved = localStorage.getItem(ROSTER_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return null;
+}
+
+function saveConnection(sheetId, tabName) {
+  try { localStorage.setItem(GSHEET_CONN_KEY, JSON.stringify({ sheetId, tabName })); } catch(e) {}
+}
+
+function loadConnection() {
+  try { return JSON.parse(localStorage.getItem(GSHEET_CONN_KEY) || 'null'); } catch(e) { return null; }
+}
+
+function extractSheetId(url) {
+  const m = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  return m ? m[1] : null;
+}
+
+// Google Sheets → participant object (exact Excel column names)
+function mapRowToParticipant(row, index) {
+  const get = (...keys) => {
+    for (const k of keys) {
+      const v = row[k];
+      if (v !== undefined && v !== null && String(v).trim() !== '' && v !== 'nan') return String(v).trim();
+    }
+    return '';
+  };
+  const first = get('Name - First', 'First Name', 'first');
+  const last  = get('Name - Last',  'Last Name',  'last');
+  const id    = parseInt(get('Entry #', 'id')) || (index + 1);
+  return {
+    id,
+    first: first || '?',
+    last:  last  || '?',
+    name:  [first, last].filter(Boolean).join(' ') || `Participant ${id}`,
+    age:   parseInt(get('Age', 'age')) || 0,
+    dob:   get('Date of Birth', 'dob'),
+    division:      get('Division', 'division'),
+    shirt:         get('Tshirt Size', 'T-shirt Size', 'Shirt Size', 'shirt'),
+    jamatkhana:    get('Primary Jamatkhana', 'Jamatkhana', 'jamatkhana'),
+    paymentStatus: get('Payment Status', 'paymentStatus') || 'Unpaid',
+    paymentAmount: parseFloat(get('Payment Amount', 'paymentAmount')) || 0,
+    city:          get('City, State', 'City/State', 'City', 'city'),
+    phone:         get('Phone Number', 'Phone', 'phone'),
+    email:         get('Email', 'email'),
+    allergies:     get('Please list any allergies, injuries, and/or medical conditions that you may have. If none, please put N/A.', 'Allergies', 'allergies') || 'N/A',
+    ecFirst:        get('Emergency Contact - First', 'EC First', 'ecFirst'),
+    ecLast:         get('Emergency Contact - Last',  'EC Last',  'ecLast'),
+    ecPhone:        get('Emergency Contact Phone Number', 'EC Phone', 'ecPhone'),
+    ecRelationship: get('Emergency Contact Relationship', 'ecRelationship'),
+    captain:        get('Are you interested in being a captain?', 'Captain', 'captain'),
+    financialAid:   get('Do you need to request financial aid for this clinic?', 'Financial Aid', 'financialAid'),
+    checkedIn: false
+  };
+}
+
+// Parses Google Visualization JSON table into row objects
+function parseGvizTable(dataTable) {
+  const cols = dataTable.cols.map(c => c.label || c.id || '');
+  return dataTable.rows.map((row, i) => {
+    const obj = {};
+    cols.forEach((col, j) => {
+      const cell = row.c ? row.c[j] : null;
+      obj[col] = cell && cell.v !== null && cell.v !== undefined ? String(cell.v) : '';
+    });
+    return obj;
+  });
+}
+
+// JSONP fetch from Google Sheets gviz/tq endpoint (no CORS issues, works from local file)
+function fetchGvizData(sheetId, tabName, onSuccess, onError) {
+  const cbName = '_gvizCb_' + Date.now();
+  const timeout = setTimeout(() => {
+    delete window[cbName];
+    onError('Request timed out. Check the sheet ID and sharing settings.');
+  }, 12000);
+
+  window[cbName] = function(response) {
+    clearTimeout(timeout);
+    delete window[cbName];
+    const old = document.getElementById('_gviz_script');
+    if (old) old.remove();
+    if (response && response.status === 'ok' && response.table) {
+      onSuccess(response.table);
+    } else {
+      onError('Sheet returned an error. Make sure it is shared as "Anyone with the link can view".');
+    }
+  };
+
+  const old = document.getElementById('_gviz_script');
+  if (old) old.remove();
+  const script = document.createElement('script');
+  script.id = '_gviz_script';
+  const tab = tabName ? `&sheet=${encodeURIComponent(tabName)}` : '';
+  script.src = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:${cbName}${tab}`;
+  script.onerror = () => {
+    clearTimeout(timeout);
+    delete window[cbName];
+    onError('Could not reach Google Sheets. Check your internet connection.');
+  };
+  document.head.appendChild(script);
+}
+
+// ── MODAL UI ──────────────────────────────────────────────────────────────────
+function openSheetModal() {
+  const conn = loadConnection();
+  if (conn) {
+    document.getElementById('gsheet-url-input').value =
+      `https://docs.google.com/spreadsheets/d/${conn.sheetId}/edit`;
+    document.getElementById('gsheet-tab-input').value = conn.tabName || 'Data';
+  }
+  document.getElementById('gsheet-error').classList.remove('visible');
+  document.getElementById('gsheet-modal-overlay').classList.add('open');
+}
+
+function closeSheetModal() {
+  document.getElementById('gsheet-modal-overlay').classList.remove('open');
+  document.getElementById('gsheet-connect-btn').disabled = false;
+  document.getElementById('gsheet-connect-btn').textContent = 'Connect & Load';
+}
+
+function showSheetError(msg) {
+  const el = document.getElementById('gsheet-error');
+  el.textContent = '⚠ ' + msg;
+  el.classList.add('visible');
+  document.getElementById('gsheet-connect-btn').disabled = false;
+  document.getElementById('gsheet-connect-btn').textContent = 'Connect & Load';
+}
+
+function connectGoogleSheet() {
+  const url     = document.getElementById('gsheet-url-input').value.trim();
+  const tabName = document.getElementById('gsheet-tab-input').value.trim() || 'Data';
+  const sheetId = extractSheetId(url);
+
+  if (!sheetId) {
+    showSheetError('Invalid URL. Please paste the full Google Sheet URL.');
+    return;
+  }
+
+  document.getElementById('gsheet-error').classList.remove('visible');
+  document.getElementById('gsheet-connect-btn').disabled = true;
+  document.getElementById('gsheet-connect-btn').textContent = 'Connecting…';
+
+  fetchGvizData(sheetId, tabName,
+    function onSuccess(table) {
+      const rows = parseGvizTable(table);
+      const roster = rows
+        .filter(r => {
+          const first = r['Name - First'] || r['First Name'] || r['first'] || '';
+          return first.trim() !== '';
+        })
+        .map((r, i) => mapRowToParticipant(r, i));
+
+      if (roster.length === 0) {
+        showSheetError(`No participant data found in the "${tabName}" tab. Check the tab name.`);
+        return;
+      }
+
+      saveConnection(sheetId, tabName);
+      const meta = { count: roster.length, loadedAt: new Date().toISOString(), sheetId, tabName, source: 'google' };
+      saveRosterToStorage(roster, meta);
+
+      participants = roster;
+      loadCheckinState();
+      applyFilters();
+      updateStats();
+      updateSheetUI(meta);
+      closeSheetModal();
+      showToast(`✅ Connected! ${roster.length} participants loaded from Google Sheet`, 'green');
+    },
+    function onError(msg) {
+      showSheetError(msg);
+    }
+  );
+}
+
+function refreshFromSheet() {
+  const conn = loadConnection();
+  if (!conn) { openSheetModal(); return; }
+
+  const refreshBtn = document.getElementById('btn-gsheet-refresh');
+  refreshBtn.textContent = '↻ Refreshing…';
+  refreshBtn.disabled = true;
+
+  fetchGvizData(conn.sheetId, conn.tabName,
+    function onSuccess(table) {
+      const rows = parseGvizTable(table);
+      const roster = rows
+        .filter(r => {
+          const first = r['Name - First'] || r['First Name'] || r['first'] || '';
+          return first.trim() !== '';
+        })
+        .map((r, i) => mapRowToParticipant(r, i));
+
+      const meta = { count: roster.length, loadedAt: new Date().toISOString(), sheetId: conn.sheetId, tabName: conn.tabName, source: 'google' };
+      saveRosterToStorage(roster, meta);
+
+      participants = roster;
+      loadCheckinState();
+      applyFilters();
+      updateStats();
+      updateSheetUI(meta);
+      refreshBtn.textContent = '↻ Refresh';
+      refreshBtn.disabled = false;
+      showToast(`✅ Roster refreshed — ${roster.length} participants`, 'green');
+    },
+    function onError(msg) {
+      refreshBtn.textContent = '↻ Refresh';
+      refreshBtn.disabled = false;
+      showToast('❌ Refresh failed: ' + msg, 'red');
+    }
+  );
+}
+
+function updateSheetUI(meta) {
+  const btn = document.getElementById('btn-gsheet');
+  const lbl = document.getElementById('gsheet-btn-label');
+  const bar = document.getElementById('roster-info-bar');
+  const txt = document.getElementById('roster-info-text');
+  const refreshBtn = document.getElementById('btn-gsheet-refresh');
+
+  btn.classList.add('connected');
+  lbl.textContent = 'Sheet Connected ✓';
+  refreshBtn.classList.add('visible');
+  txt.innerHTML = `<strong>Live from Google Sheet</strong> &mdash; "${meta.tabName}" tab &mdash; ${meta.count} participants &mdash; refreshed ${new Date(meta.loadedAt).toLocaleString()}`;
+  bar.classList.add('visible');
+}
+
+function showRosterBanner() {
+  try {
+    const meta = JSON.parse(localStorage.getItem(ROSTER_META_KEY) || 'null');
+    if (meta && meta.source === 'google') updateSheetUI(meta);
+  } catch(e) {}
+}
+
+// ── CSV FALLBACK (still available via hidden input) ───────────────────────────
+function parseCSVLine(line) {
+  const result = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (inQ && line[i+1]==='"') { cur+='"'; i++; } else { inQ=!inQ; } }
+    else if (c === ',' && !inQ) { result.push(cur.trim()); cur=''; }
+    else { cur += c; }
+  }
+  result.push(cur.trim()); return result;
+}
+function parseCSVText(text) {
+  const lines = text.split(/\r?\n/).filter(l=>l.trim());
+  if (lines.length < 2) return [];
+  const headers = parseCSVLine(lines[0]);
+  return lines.slice(1).map(line => {
+    const vals = parseCSVLine(line), obj = {};
+    headers.forEach((h,j) => { obj[h] = (vals[j]||'').trim(); });
+    return obj;
+  });
+}
+function loadRosterFromCSV(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const rows = parseCSVText(e.target.result);
+      const roster = rows.filter(r=>(r['Name - First']||r['First Name']||'').trim()!='').map((r,i)=>mapRowToParticipant(r,i));
+      if (!roster.length) { showToast('❌ No participant data found in CSV','red'); return; }
+      const meta = { count: roster.length, loadedAt: new Date().toISOString(), source: 'csv' };
+      saveRosterToStorage(roster, meta);
+      participants = roster; loadCheckinState(); applyFilters(); updateStats();
+      showToast(`✅ ${roster.length} participants loaded from CSV`, 'green');
+    } catch(err) { showToast('❌ Could not parse CSV file','red'); }
+  };
+  reader.readAsText(file); event.target.value = '';
+}
+
+// State
+let savedRoster = loadRosterFromStorage();
+let participants = savedRoster
+  ? savedRoster.map(p => ({ ...p, checkedIn: false }))
+  : PARTICIPANTS_DATA.map(p => ({ ...p, checkedIn: false }));
+let currentWeek = 0;
+let filteredParticipants = [...participants];
+let currentView = 'list';
+let selectedParticipantId = null;
+
+// Load check-in state from localStorage per week
+function getStorageKey(week) { return `hoopitup_checkin_week${week}`; }
+
+function loadCheckinState() {
+  try {
+    const key = getStorageKey(currentWeek);
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      const checkedIds = JSON.parse(saved);
+      participants.forEach(p => { p.checkedIn = checkedIds.includes(p.id); });
+    } else {
+      participants.forEach(p => { p.checkedIn = false; });
+    }
+  } catch(e) {}
+}
+
+function saveCheckinState() {
+  try {
+    const key = getStorageKey(currentWeek);
+    const checkedIds = participants.filter(p => p.checkedIn).map(p => p.id);
+    localStorage.setItem(key, JSON.stringify(checkedIds));
+  } catch(e) {}
+}
+
+function setWeek(week) {
+  currentWeek = week;
+  document.querySelectorAll('.week-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === week);
+  });
+  loadCheckinState();
+  applyFilters();
+  updateStats();
+}
+
+function applyFilters() {
+  const search = document.getElementById('search').value.toLowerCase().trim();
+  const division = document.getElementById('filter-division').value;
+  const jk = document.getElementById('filter-jk').value;
+  const status = document.getElementById('filter-status').value;
+
+  filteredParticipants = participants.filter(p => {
+    if (search) {
+      const nameMatch = p.name.toLowerCase().includes(search);
+      const emailMatch = p.email.toLowerCase().includes(search);
+      const phoneMatch = p.phone.includes(search);
+      if (!nameMatch && !emailMatch && !phoneMatch) return false;
+    }
+    if (division && p.division !== division) return false;
+    if (jk && p.jamatkhana !== jk) return false;
+    if (status === 'Paid' && p.paymentStatus !== 'Paid') return false;
+    if (status === 'Unpaid' && p.paymentStatus !== 'Unpaid') return false;
+    if (status === 'checkedin' && !p.checkedIn) return false;
+    if (status === 'notcheckedin' && p.checkedIn) return false;
+    return true;
+  });
+
+  renderList();
+  updateStats();
+}
+
+function resetFilters() {
+  document.getElementById('search').value = '';
+  document.getElementById('filter-division').value = '';
+  document.getElementById('filter-jk').value = '';
+  document.getElementById('filter-status').value = '';
+  applyFilters();
+}
+
+function setView(view) {
+  currentView = view;
+  const list = document.getElementById('participant-list');
+  list.className = `participant-list ${view}-view`;
+  document.getElementById('view-list-btn').classList.toggle('active', view === 'list');
+  document.getElementById('view-grid-btn').classList.toggle('active', view === 'grid');
+}
+
+function renderList() {
+  const container = document.getElementById('participant-list');
+  const count = document.getElementById('results-count');
+
+  count.textContent = `Showing ${filteredParticipants.length} of ${participants.length} participants`;
+
+  if (filteredParticipants.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="emoji">🏀</div><p>No participants match your filters.</p></div>`;
+    return;
+  }
+
+  // Sort: checked-in at bottom, unpaid at top of unchecked
+  const sorted = [...filteredParticipants].sort((a, b) => {
+    if (a.checkedIn !== b.checkedIn) return a.checkedIn ? 1 : -1;
+    if (a.paymentStatus !== b.paymentStatus) return a.paymentStatus === 'Unpaid' ? -1 : 1;
+    return a.last.localeCompare(b.last);
+  });
+
+  container.innerHTML = sorted.map(p => {
+    const isAdult = p.division.includes('Adults');
+    const isPaid = p.paymentStatus === 'Paid';
+    let cardClass = isAdult ? 'adult' : 'junior';
+    if (p.checkedIn) cardClass = 'checked-in';
+    else if (!isPaid) cardClass = 'unpaid';
+
+    const divBadge = isAdult
+      ? `<span class="badge badge-adult">Adult</span>`
+      : `<span class="badge badge-junior">Junior</span>`;
+    const payBadge = isPaid
+      ? `<span class="badge badge-paid">✓ Paid</span>`
+      : `<span class="badge badge-unpaid">⚠ Unpaid</span>`;
+    const shirtBadge = `<span class="badge badge-shirt">👕 ${p.shirt}</span>`;
+    const jkBadge = `<span class="badge badge-jk">🕌 ${p.jamatkhana}</span>`;
+    const captBadge = (p.captain === 'Yes') ? `<span class="badge badge-captain">⭐ Captain</span>` : '';
+
+    const checkinBtn = p.checkedIn
+      ? `<button class="checkin-btn checked" onclick="event.stopPropagation(); toggleCheckin(${p.id})">✓ Checked In</button>`
+      : `<button class="checkin-btn not-checked" onclick="event.stopPropagation(); toggleCheckin(${p.id})">Check In</button>`;
+
+    return `
+      <div class="participant-card ${cardClass}" onclick="openModal(${p.id})">
+        <div class="card-header">
+          <div>
+            <div class="card-name">${p.name}</div>
+            <div class="card-meta">Age ${p.age || '?'} · ${p.city || 'Unknown city'}</div>
+          </div>
+        </div>
+        <div class="badges">${divBadge}${payBadge}${shirtBadge}${jkBadge}${captBadge}</div>
+        <div class="card-details">
+          <span>📞 ${p.phone}</span>
+          ${p.allergies && p.allergies !== 'N/A' && p.allergies !== 'nan' ? '<span>⚠️ Medical</span>' : ''}
+        </div>
+        ${checkinBtn}
+        <div style="padding-bottom: 32px;"></div>
+      </div>`;
+  }).join('');
+}
+
+function updateStats() {
+  const total = participants.length;
+  const checkedIn = participants.filter(p => p.checkedIn).length;
+  const adults = participants.filter(p => p.division.includes('Adults')).length;
+  const juniors = participants.filter(p => p.division.includes('Juniors')).length;
+  const unpaid = participants.filter(p => p.paymentStatus === 'Unpaid').length;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-checkedin').textContent = checkedIn;
+  document.getElementById('stat-adults').textContent = adults;
+  document.getElementById('stat-juniors').textContent = juniors;
+  document.getElementById('stat-unpaid').textContent = unpaid;
+
+  const pct = total > 0 ? Math.round((checkedIn / total) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${TOURNAMENT_DATES[currentWeek]} — ${checkedIn} of ${total} checked in (${pct}%)`;
+}
+
+function toggleCheckin(id) {
+  const p = participants.find(x => x.id === id);
+  if (!p) return;
+  p.checkedIn = !p.checkedIn;
+  saveCheckinState();
+
+  showToast(
+    p.checkedIn ? `✓ ${p.first} checked in!` : `↩ ${p.first} check-in undone`,
+    p.checkedIn ? 'green' : 'orange'
+  );
+
+  if (selectedParticipantId === id) {
+    updateModalBtn(p);
+  }
+
+  applyFilters();
+}
+
+function openModal(id) {
+  selectedParticipantId = id;
+  const p = participants.find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById('modal-name').textContent = p.name;
+  document.getElementById('modal-subtitle').textContent = `Entry #${p.id} · ${TOURNAMENT_DATES[currentWeek]}`;
+  document.getElementById('m-division').textContent = p.division.includes('Adults') ? 'Adults (17+)' : 'Juniors (12–16)';
+  document.getElementById('m-age').textContent = `${p.age || '?'} years old`;
+  document.getElementById('m-shirt').textContent = p.shirt || '—';
+  document.getElementById('m-payment').textContent = p.paymentStatus === 'Paid' ? `✓ Paid ($${p.paymentAmount})` : '⚠ Unpaid';
+  document.getElementById('m-payment').style.color = p.paymentStatus === 'Paid' ? '#27ae60' : '#e74c3c';
+  document.getElementById('m-jk').textContent = p.jamatkhana || '—';
+  document.getElementById('m-city').textContent = p.city || '—';
+  document.getElementById('m-phone').textContent = p.phone || '—';
+  document.getElementById('m-email').textContent = p.email || '—';
+
+  const allergies = (!p.allergies || p.allergies === 'N/A' || p.allergies === 'nan')
+    ? 'No allergies or medical conditions reported.'
+    : p.allergies;
+  document.getElementById('m-allergies').textContent = allergies;
+
+  const ecName = [p.ecFirst, p.ecLast].filter(x => x && x !== 'nan').join(' ') || '—';
+  document.getElementById('m-ec-name').textContent = ecName;
+  document.getElementById('m-ec-rel').textContent = (p.ecRelationship && p.ecRelationship !== 'nan') ? p.ecRelationship : '—';
+  document.getElementById('m-ec-phone').textContent = (p.ecPhone && p.ecPhone !== 'nan') ? p.ecPhone : '—';
+
+  updateModalBtn(p);
+  document.getElementById('modal').classList.add('open');
+}
+
+function updateModalBtn(p) {
+  const btn = document.getElementById('modal-checkin-btn');
+  if (p.checkedIn) {
+    btn.textContent = '↩ Undo Check-In';
+    btn.className = 'btn-checkin-modal undo-checkin';
+  } else {
+    btn.textContent = '✓ Check In Now';
+    btn.className = 'btn-checkin-modal do-checkin';
+  }
+}
+
+function toggleCheckinFromModal() {
+  if (selectedParticipantId) toggleCheckin(selectedParticipantId);
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modal').classList.remove('open');
+  selectedParticipantId = null;
+}
+
+function showToast(msg, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = `toast ${type} show`;
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ── DATA BACKUP / RESTORE ──────────────────────────────────────────────────
+
+function exportData() {
+  // Collect check-in state for all 4 weeks from localStorage
+  const backup = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    tournament: 'Hoop It Up ATX 2026',
+    weeks: {}
+  };
+  for (let w = 0; w < 4; w++) {
+    const key = getStorageKey(w);
+    const saved = localStorage.getItem(key);
+    backup.weeks[w] = saved ? JSON.parse(saved) : [];
+  }
+
+  const json = JSON.stringify(backup, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `HoopItUp_CheckIn_Backup_${date}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ Backup saved to your Downloads folder!', 'green');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const backup = JSON.parse(e.target.result);
+      if (!backup.weeks) throw new Error('Invalid backup file');
+
+      // Restore each week's check-in data to localStorage
+      for (let w = 0; w < 4; w++) {
+        const key = getStorageKey(w);
+        const ids = backup.weeks[w] || [];
+        localStorage.setItem(key, JSON.stringify(ids));
+      }
+
+      // Reload current week's state
+      loadCheckinState();
+      applyFilters();
+      updateStats();
+
+      const exportDate = backup.exportedAt
+        ? new Date(backup.exportedAt).toLocaleString()
+        : 'unknown date';
+      showToast(`✅ Backup restored! (saved ${exportDate})`, 'green');
+    } catch(err) {
+      showToast('❌ Could not read backup file. Please try again.', 'red');
+    }
+  };
+  reader.readAsText(file);
+  // Reset the input so the same file can be re-selected if needed
+  event.target.value = '';
+}
+
+// Keyboard support
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalBtn();
+});
+
+// Initialize
+loadCheckinState();
+applyFilters();
+updateStats();
+showRosterBanner();
+</script>
+</body>
+</html>
