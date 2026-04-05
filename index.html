@@ -318,7 +318,119 @@
   .btn-checkin-modal.do-checkin:hover { background: var(--dark-orange); }
   .btn-checkin-modal.undo-checkin { background: #eee; color: #555; }
   .btn-checkin-modal.undo-checkin:hover { background: #ddd; }
+  .btn-jersey-modal {
+    padding: 11px 22px; border-radius: 25px; border: none;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-jersey-modal.give-jersey { background: #8e44ad; color: white; }
+  .btn-jersey-modal.give-jersey:hover { background: #7030a0; }
+  .btn-jersey-modal.undo-jersey { background: #e8d5f5; color: #6a1b9a; }
+  .btn-jersey-modal.undo-jersey:hover { background: #d7baed; }
   .btn-cancel { padding: 11px 20px; border-radius: 25px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 0.9rem; color: #666; }
+  .btn-report {
+    padding: 10px 16px; border-radius: 25px;
+    background: #f39c12; border: none; color: white;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-report:hover { background: #d68910; }
+
+  /* JERSEY CARD BUTTON */
+  .jersey-btn {
+    position: absolute; left: 14px; bottom: 14px;
+    padding: 6px 14px; border-radius: 20px;
+    border: none; cursor: pointer; font-size: 0.75rem; font-weight: 700;
+    transition: all 0.2s;
+  }
+  .jersey-btn.not-given { background: #f3e5f5; color: #8e44ad; border: 1px solid #ce93d8; }
+  .jersey-btn.not-given:hover { background: #e1bee7; }
+  .jersey-btn.given { background: #8e44ad; color: white; }
+
+  /* REPORT MODAL */
+  .report-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6); z-index: 250;
+    justify-content: center; align-items: flex-start;
+    padding: 20px; overflow-y: auto;
+  }
+  .report-modal-overlay.open { display: flex; }
+  .report-modal {
+    background: white; border-radius: 18px;
+    width: 100%; max-width: 700px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    overflow: hidden; margin: auto;
+    animation: slideUp 0.25s ease;
+  }
+  .report-modal-header {
+    padding: 20px 24px 16px;
+    background: linear-gradient(135deg, var(--black), #1a4a00);
+    color: white; display: flex; align-items: center; justify-content: space-between;
+  }
+  .report-modal-header h2 { font-size: 1.2rem; font-weight: 800; }
+  .report-modal-body { padding: 20px 24px; }
+  .report-section { margin-bottom: 22px; }
+  .report-section h3 { font-size: 0.95rem; font-weight: 800; color: #333; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #f0f0f0; }
+  .report-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .report-table th { background: #f5f5f5; padding: 8px 12px; text-align: left; font-weight: 700; color: #555; border-bottom: 2px solid #e0e0e0; }
+  .report-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; color: #333; }
+  .report-table tr:last-child td { border-bottom: none; }
+  .report-table .num { font-weight: 700; color: var(--orange); }
+  .report-modal-footer { padding: 16px 24px; background: #f9f9f9; display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid #e0e0e0; flex-wrap: wrap; }
+  .badge-jersey-given { background: #e8d5f5; color: #6a1b9a; }
+  .auto-refresh-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 0.68rem; font-weight: 600; background: #e8f5e9; color: #2e7d32;
+    margin-left: 6px;
+  }
+
+  /* CLOUD SYNC */
+  .btn-cloudsync {
+    padding: 10px 16px; border-radius: 25px;
+    background: #0f9d58; border: none; color: white;
+    cursor: pointer; font-size: 0.82rem; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-cloudsync:hover { background: #0b7a44; }
+  .btn-cloudsync.syncing { background: #e67e22; }
+  .btn-cloudsync.error   { background: #c0392b; }
+  .sync-status-bar {
+    background: #e6f4ea; border-top: 2px solid #0f9d58;
+    padding: 6px 16px; font-size: 0.76rem; color: #1a1a1a;
+    display: none; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .sync-status-bar.visible { display: flex; }
+  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #0f9d58; display: inline-block; }
+  .sync-dot.spinning { animation: spin 1.2s linear infinite; }
+  .sync-dot.error-dot { background: #c0392b; }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  /* CLOUD SYNC MODAL */
+  .csync-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); z-index: 210;
+    align-items: center; justify-content: center;
+  }
+  .csync-modal-overlay.open { display: flex; }
+  .csync-modal {
+    background: white; border-radius: 14px; padding: 26px 26px 20px;
+    max-width: 500px; width: 92%; box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+  .csync-modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+  .csync-modal .subtitle { font-size: 0.82rem; color: #666; margin-bottom: 16px; line-height: 1.5; }
+  .csync-modal label { font-size: 0.8rem; font-weight: 700; color: #444; display: block; margin-bottom: 5px; }
+  .csync-modal input { width: 100%; padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.85rem; outline: none; margin-bottom: 10px; transition: border-color 0.2s; }
+  .csync-modal input:focus { border-color: #0f9d58; }
+  .csync-modal .hint { font-size: 0.74rem; color: #888; margin-bottom: 14px; line-height: 1.5; }
+  .csync-modal .csync-error { color: #c0392b; font-size: 0.8rem; margin-bottom: 10px; display: none; }
+  .csync-modal .csync-error.visible { display: block; }
+  .csync-modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; flex-wrap: wrap; }
+  .btn-csync-cancel { padding: 10px 20px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 0.85rem; color: #555; }
+  .btn-csync-connect { padding: 10px 22px; border-radius: 8px; border: none; background: #0f9d58; color: white; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+  .btn-csync-connect:hover { background: #0b7a44; }
+  .btn-csync-connect:disabled { background: #aaa; cursor: default; }
+  .btn-csync-disconnect { padding: 10px 20px; border-radius: 8px; border: 1px solid #e74c3c; background: white; color: #e74c3c; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+  .btn-csync-disconnect:hover { background: #fef0f0; }
 
   /* TOAST */
   .toast {
@@ -490,22 +602,54 @@
     <option value="Unpaid">Unpaid</option>
     <option value="checkedin">Checked In</option>
     <option value="notcheckedin">Not Checked In</option>
+    <option value="jerseyGiven">Jersey Given ✓</option>
+    <option value="jerseyPending">Jersey Pending</option>
   </select>
   <button class="btn-reset" onclick="resetFilters()">Reset</button>
+  <button class="btn-report" onclick="openReport()">📊 Reports</button>
   <button class="btn-export" onclick="exportData()">💾 Save Backup</button>
   <button class="btn-import" onclick="document.getElementById('import-file-input').click()">📂 Load Backup</button>
   <input type="file" id="import-file-input" accept=".json" onchange="importData(event)">
+  <button class="btn-import" style="background:#7b1fa2;" onclick="document.getElementById('import-report-csv-input').click()">📋 Import Report CSV</button>
+  <input type="file" id="import-report-csv-input" accept=".csv" onchange="importReportCSV(event)" style="display:none">
   <button class="btn-gsheet" id="btn-gsheet" onclick="openSheetModal()">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 3h-15A1.5 1.5 0 003 4.5v15A1.5 1.5 0 004.5 21h15a1.5 1.5 0 001.5-1.5v-15A1.5 1.5 0 0019.5 3zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>
     <span id="gsheet-btn-label">Connect Google Sheet</span>
   </button>
   <button class="btn-gsheet-refresh" id="btn-gsheet-refresh" onclick="refreshFromSheet()">↻ Refresh</button>
+  <button class="btn-cloudsync" id="btn-cloudsync" onclick="openSyncModal()">☁ Cloud Sync</button>
   <input type="file" id="roster-file-input" accept=".csv" onchange="loadRosterFromCSV(event)" style="display:none">
 </div>
 
 <div class="roster-info-bar" id="roster-info-bar">
   <span class="live-dot"></span>
   <span id="roster-info-text">Connected to Google Sheet</span>
+</div>
+
+<div class="sync-status-bar" id="sync-status-bar">
+  <span class="sync-dot" id="sync-dot"></span>
+  <span id="sync-status-text">Cloud Sync connected</span>
+</div>
+
+<!-- Cloud Sync Modal -->
+<div class="csync-modal-overlay" id="csync-modal-overlay" onclick="if(event.target===this)closeSyncModal()">
+  <div class="csync-modal">
+    <h3>☁ Cloud Sync Setup</h3>
+    <p class="subtitle">
+      Sync check-in and jersey data across all devices in real time.<br>
+      Paste your Google Apps Script Web App URL below.<br>
+      <strong>No URL yet?</strong> Follow the instructions in <strong>HoopItUp_SyncScript.gs</strong> to deploy it — takes about 5 minutes.
+    </p>
+    <label for="csync-url-input">Apps Script Web App URL</label>
+    <input id="csync-url-input" type="text" placeholder="https://script.google.com/macros/s/…/exec">
+    <p class="hint">This is the URL you copy after deploying the script as a Web App in Google Apps Script.</p>
+    <div class="csync-error" id="csync-error"></div>
+    <div class="btn-row">
+      <button class="btn-csync-cancel" onclick="closeSyncModal()">Cancel</button>
+      <button class="btn-csync-disconnect" id="btn-csync-disconnect" onclick="disconnectSync()" style="display:none">Disconnect</button>
+      <button class="btn-csync-connect" id="btn-csync-connect" onclick="connectSync()">Connect &amp; Sync</button>
+    </div>
+  </div>
 </div>
 
 <!-- Google Sheet Connection Modal -->
@@ -577,7 +721,52 @@
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModalBtn()">Close</button>
+      <button class="btn-jersey-modal give-jersey" id="modal-jersey-btn" onclick="toggleJerseyFromModal()">👕 Give Jersey</button>
       <button class="btn-checkin-modal" id="modal-checkin-btn" onclick="toggleCheckinFromModal()"></button>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT MODAL -->
+<div class="report-modal-overlay" id="report-modal" onclick="if(event.target===this)closeReport()">
+  <div class="report-modal">
+    <div class="report-modal-header">
+      <div>
+        <h2>📊 4-Week Tournament Report</h2>
+        <p id="report-subtitle" style="font-size:0.78rem;color:#aaa;margin-top:3px;">Hoop It Up ATX 2026</p>
+      </div>
+      <button class="modal-close" onclick="closeReport()">✕</button>
+    </div>
+    <div class="report-modal-body">
+      <div class="report-section">
+        <h3>✅ Check-In Summary by Week</h3>
+        <table class="report-table">
+          <thead><tr><th>Week</th><th>Date</th><th>Checked In</th><th>Not Checked In</th><th>Attendance %</th></tr></thead>
+          <tbody id="report-checkin-tbody"></tbody>
+        </table>
+      </div>
+      <div class="report-section">
+        <h3>👕 Jersey Distribution</h3>
+        <table class="report-table">
+          <thead><tr><th>Metric</th><th>Count</th></tr></thead>
+          <tbody id="report-jersey-tbody"></tbody>
+        </table>
+      </div>
+      <div class="report-section">
+        <h3>👕 Jersey by Shirt Size</h3>
+        <table class="report-table" id="report-jersey-size-table">
+          <thead><tr><th>Size</th><th>Given</th><th>Pending</th></tr></thead>
+          <tbody id="report-jersey-size-tbody"></tbody>
+        </table>
+      </div>
+      <div class="report-section">
+        <h3>📋 Jerseys Not Yet Given</h3>
+        <div id="report-jersey-pending" style="font-size:0.82rem;color:#555;line-height:1.8;"></div>
+      </div>
+    </div>
+    <div class="report-modal-footer">
+      <button class="btn-cancel" onclick="closeReport()">Close</button>
+      <button class="btn-report" onclick="exportReport()">⬇ Export Report CSV</button>
     </div>
   </div>
 </div>
@@ -3422,6 +3611,11 @@ const PARTICIPANTS_DATA =
 
 const TOURNAMENT_DATES = ['Apr 5, 2026', 'Apr 12, 2026', 'Apr 19, 2026', 'Apr 26, 2026'];
 
+// ── PRECONFIGURED GOOGLE SHEET ────────────────────────────────────────────────
+const DEFAULT_SHEET_ID  = '1VSLRRVTG3LxzFi7txHQ65q9iP9wFydsZ';
+const DEFAULT_TAB_NAME  = 'Data';
+const AUTO_REFRESH_MS   = 5 * 60 * 1000; // 5 minutes
+
 // ── GOOGLE SHEET LIVE CONNECTION ──────────────────────────────────────────────
 const ROSTER_KEY      = 'hoopitup_roster_v1';
 const ROSTER_META_KEY = 'hoopitup_roster_meta';
@@ -3601,6 +3795,7 @@ function connectGoogleSheet() {
 
       participants = roster;
       loadCheckinState();
+      loadJerseyState();
       applyFilters();
       updateStats();
       updateSheetUI(meta);
@@ -3636,6 +3831,7 @@ function refreshFromSheet() {
 
       participants = roster;
       loadCheckinState();
+      loadJerseyState();
       applyFilters();
       updateStats();
       updateSheetUI(meta);
@@ -3661,7 +3857,7 @@ function updateSheetUI(meta) {
   btn.classList.add('connected');
   lbl.textContent = 'Sheet Connected ✓';
   refreshBtn.classList.add('visible');
-  txt.innerHTML = `<strong>Live from Google Sheet</strong> &mdash; "${meta.tabName}" tab &mdash; ${meta.count} participants &mdash; refreshed ${new Date(meta.loadedAt).toLocaleString()}`;
+  txt.innerHTML = `<strong>Live from Google Sheet</strong> &mdash; "${meta.tabName}" tab &mdash; ${meta.count} participants &mdash; refreshed ${new Date(meta.loadedAt).toLocaleString()} <span class="auto-refresh-badge">↻ Auto-refresh: 5 min</span>`;
   bar.classList.add('visible');
 }
 
@@ -3703,7 +3899,7 @@ function loadRosterFromCSV(event) {
       if (!roster.length) { showToast('❌ No participant data found in CSV','red'); return; }
       const meta = { count: roster.length, loadedAt: new Date().toISOString(), source: 'csv' };
       saveRosterToStorage(roster, meta);
-      participants = roster; loadCheckinState(); applyFilters(); updateStats();
+      participants = roster; loadCheckinState(); loadJerseyState(); applyFilters(); updateStats();
       showToast(`✅ ${roster.length} participants loaded from CSV`, 'green');
     } catch(err) { showToast('❌ Could not parse CSV file','red'); }
   };
@@ -3742,6 +3938,59 @@ function saveCheckinState() {
     const checkedIds = participants.filter(p => p.checkedIn).map(p => p.id);
     localStorage.setItem(key, JSON.stringify(checkedIds));
   } catch(e) {}
+  syncWriteToCloud(); // push to cloud immediately
+}
+
+// ── JERSEY DISSEMINATION ──────────────────────────────────────────────────────
+const JERSEY_KEY = 'hoopitup_jersey_v1';
+
+function loadJerseyState() {
+  try {
+    const saved = localStorage.getItem(JERSEY_KEY);
+    if (saved) {
+      const givenIds = JSON.parse(saved);
+      participants.forEach(p => { p.jerseyGiven = givenIds.includes(p.id); });
+    } else {
+      participants.forEach(p => { p.jerseyGiven = false; });
+    }
+  } catch(e) { participants.forEach(p => { p.jerseyGiven = false; }); }
+}
+
+function saveJerseyState() {
+  try {
+    const givenIds = participants.filter(p => p.jerseyGiven).map(p => p.id);
+    localStorage.setItem(JERSEY_KEY, JSON.stringify(givenIds));
+  } catch(e) {}
+  syncWriteToCloud(); // push to cloud immediately
+}
+
+function toggleJersey(id) {
+  const p = participants.find(x => x.id === id);
+  if (!p) return;
+  p.jerseyGiven = !p.jerseyGiven;
+  saveJerseyState();
+  showToast(
+    p.jerseyGiven ? `👕 Jersey given to ${p.first}!` : `↩ Jersey for ${p.first} undone`,
+    p.jerseyGiven ? 'green' : 'orange'
+  );
+  if (selectedParticipantId === id) updateModalJerseyBtn(p);
+  applyFilters();
+}
+
+function toggleJerseyFromModal() {
+  if (selectedParticipantId) toggleJersey(selectedParticipantId);
+}
+
+function updateModalJerseyBtn(p) {
+  const btn = document.getElementById('modal-jersey-btn');
+  if (!btn) return;
+  if (p.jerseyGiven) {
+    btn.textContent = '↩ Jersey Returned';
+    btn.className = 'btn-jersey-modal undo-jersey';
+  } else {
+    btn.textContent = '👕 Give Jersey';
+    btn.className = 'btn-jersey-modal give-jersey';
+  }
 }
 
 function setWeek(week) {
@@ -3773,6 +4022,8 @@ function applyFilters() {
     if (status === 'Unpaid' && p.paymentStatus !== 'Unpaid') return false;
     if (status === 'checkedin' && !p.checkedIn) return false;
     if (status === 'notcheckedin' && p.checkedIn) return false;
+    if (status === 'jerseyGiven' && !p.jerseyGiven) return false;
+    if (status === 'jerseyPending' && p.jerseyGiven) return false;
     return true;
   });
 
@@ -3830,10 +4081,15 @@ function renderList() {
     const shirtBadge = `<span class="badge badge-shirt">👕 ${p.shirt}</span>`;
     const jkBadge = `<span class="badge badge-jk">🕌 ${p.jamatkhana}</span>`;
     const captBadge = (p.captain === 'Yes') ? `<span class="badge badge-captain">⭐ Captain</span>` : '';
+    const jerseyBadge = p.jerseyGiven ? `<span class="badge badge-jersey-given">👕 Jersey ✓</span>` : '';
 
     const checkinBtn = p.checkedIn
       ? `<button class="checkin-btn checked" onclick="event.stopPropagation(); toggleCheckin(${p.id})">✓ Checked In</button>`
       : `<button class="checkin-btn not-checked" onclick="event.stopPropagation(); toggleCheckin(${p.id})">Check In</button>`;
+
+    const jerseyBtn = p.jerseyGiven
+      ? `<button class="jersey-btn given" onclick="event.stopPropagation(); toggleJersey(${p.id})">👕 Jersey ✓</button>`
+      : `<button class="jersey-btn not-given" onclick="event.stopPropagation(); toggleJersey(${p.id})">👕 Give Jersey</button>`;
 
     return `
       <div class="participant-card ${cardClass}" onclick="openModal(${p.id})">
@@ -3848,8 +4104,9 @@ function renderList() {
           <span>📞 ${p.phone}</span>
           ${p.allergies && p.allergies !== 'N/A' && p.allergies !== 'nan' ? '<span>⚠️ Medical</span>' : ''}
         </div>
+        ${jerseyBtn}
         ${checkinBtn}
-        <div style="padding-bottom: 32px;"></div>
+        <div style="padding-bottom: 40px;"></div>
       </div>`;
   }).join('');
 }
@@ -3918,6 +4175,7 @@ function openModal(id) {
   document.getElementById('m-ec-phone').textContent = (p.ecPhone && p.ecPhone !== 'nan') ? p.ecPhone : '—';
 
   updateModalBtn(p);
+  updateModalJerseyBtn(p);
   document.getElementById('modal').classList.add('open');
 }
 
@@ -3956,16 +4214,22 @@ function showToast(msg, type = '') {
 function exportData() {
   // Collect check-in state for all 4 weeks from localStorage
   const backup = {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     tournament: 'Hoop It Up ATX 2026',
-    weeks: {}
+    weeks: {},
+    jerseyGiven: []
   };
   for (let w = 0; w < 4; w++) {
     const key = getStorageKey(w);
     const saved = localStorage.getItem(key);
     backup.weeks[w] = saved ? JSON.parse(saved) : [];
   }
+  // Save jersey state
+  try {
+    const saved = localStorage.getItem(JERSEY_KEY);
+    backup.jerseyGiven = saved ? JSON.parse(saved) : [];
+  } catch(e) {}
 
   const json = JSON.stringify(backup, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
@@ -3995,8 +4259,14 @@ function importData(event) {
         localStorage.setItem(key, JSON.stringify(ids));
       }
 
+      // Restore jersey state if present in backup
+      if (backup.jerseyGiven) {
+        localStorage.setItem(JERSEY_KEY, JSON.stringify(backup.jerseyGiven));
+      }
+
       // Reload current week's state
       loadCheckinState();
+      loadJerseyState();
       applyFilters();
       updateStats();
 
@@ -4013,22 +4283,147 @@ function importData(event) {
   event.target.value = '';
 }
 
+// ── IMPORT REPORT CSV ─────────────────────────────────────────────────────────
+// Reads the CSV produced by "Export Report CSV" and restores all 4 weeks +
+// jersey data.  Format:
+//   Section 1 (summary rows): Week, Date, Checked In, ...
+//   Blank line
+//   Section 2 (detail rows): ID, Name, Division, Shirt Size, Jamatkhana,
+//                             Jersey Given, Week1, Week2, Week3, Week4
+
+function importReportCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = ''; // reset so same file can be re-selected
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const text = e.target.result;
+      const lines = text.split(/\r?\n/);
+
+      // Find the detail-section header line
+      let detailHeaderIdx = -1;
+      for (let i = 0; i < lines.length; i++) {
+        const l = lines[i].trim();
+        if (l.startsWith('ID,') || l.startsWith('"ID"')) {
+          detailHeaderIdx = i;
+          break;
+        }
+      }
+      if (detailHeaderIdx === -1) {
+        showToast('❌ Could not find data rows in the CSV. Make sure it was exported from the Reports panel.', 'red');
+        return;
+      }
+
+      // Parse header to find column positions (handles quoted headers too)
+      const headerCols = parseCSVLine(lines[detailHeaderIdx]);
+      const col = {};
+      headerCols.forEach(function(h, i) {
+        col[h.replace(/^"|"$/g, '').trim().toLowerCase()] = i;
+      });
+
+      // We expect: id, jersey given, week1, week2, week3, week4
+      const idIdx  = col['id']           ?? -1;
+      const jIdx   = col['jersey given'] ?? -1;
+      const w1Idx  = col['week1']        ?? -1;
+      const w2Idx  = col['week2']        ?? -1;
+      const w3Idx  = col['week3']        ?? -1;
+      const w4Idx  = col['week4']        ?? -1;
+
+      if (idIdx === -1 || w1Idx === -1) {
+        showToast('❌ CSV is missing expected columns (ID, Week1…Week4). Please use a file from the Reports panel.', 'red');
+        return;
+      }
+
+      const weekIds   = [[], [], [], []];   // [week0, week1, week2, week3]
+      const jerseyIds = [];
+      let rowCount = 0;
+
+      for (let i = detailHeaderIdx + 1; i < lines.length; i++) {
+        const raw = lines[i].trim();
+        if (!raw) continue;
+        const cols = parseCSVLine(raw);
+        const id = parseInt(cols[idIdx]);
+        if (isNaN(id) || id <= 0) continue;
+        rowCount++;
+
+        const weekCols = [w1Idx, w2Idx, w3Idx, w4Idx];
+        weekCols.forEach(function(ci, wi) {
+          if (ci !== -1) {
+            const val = (cols[ci] || '').replace(/^"|"$/g, '').trim().toLowerCase();
+            if (val === 'yes') weekIds[wi].push(id);
+          }
+        });
+
+        if (jIdx !== -1) {
+          const jVal = (cols[jIdx] || '').replace(/^"|"$/g, '').trim().toLowerCase();
+          if (jVal === 'yes') jerseyIds.push(id);
+        }
+      }
+
+      if (rowCount === 0) {
+        showToast('❌ No participant rows found. Check the file format.', 'red');
+        return;
+      }
+
+      // Persist to localStorage
+      for (let w = 0; w < 4; w++) {
+        localStorage.setItem(getStorageKey(w), JSON.stringify(weekIds[w]));
+      }
+      if (jIdx !== -1) {
+        localStorage.setItem(JERSEY_KEY, JSON.stringify(jerseyIds));
+      }
+
+      // Reload UI
+      loadCheckinState();
+      loadJerseyState();
+      applyFilters();
+      updateStats();
+
+      // Push to cloud if connected
+      syncWriteToCloud();
+
+      const totals = weekIds.map(function(a) { return a.length; });
+      showToast(
+        '✅ Report CSV imported! ' +
+        'W1:' + totals[0] + ' W2:' + totals[1] +
+        ' W3:' + totals[2] + ' W4:' + totals[3] +
+        ' | Jerseys:' + jerseyIds.length,
+        'green'
+      );
+
+    } catch(err) {
+      showToast('❌ Error reading CSV: ' + err.message, 'red');
+    }
+  };
+  reader.readAsText(file);
+}
+
 // ── LOGIN ─────────────────────────────────────────────────────────────────────
 // ⬇ Change this password to whatever you'd like
 const APP_PASSWORD = 'HoopItUp2026';
-const SESSION_KEY  = 'hoopitup_auth';
+const SESSION_KEY  = 'hoopitup_auth_v2';
+const SESSION_TTL  = 12 * 60 * 60 * 1000; // 12 hours in ms
 
 function checkLogin() {
-  if (sessionStorage.getItem(SESSION_KEY) === 'true') {
-    document.getElementById('login-overlay').classList.add('hidden');
-  }
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (raw) {
+      const { ts } = JSON.parse(raw);
+      if (Date.now() - ts < SESSION_TTL) {
+        document.getElementById('login-overlay').classList.add('hidden');
+        return;
+      }
+    }
+  } catch(e) {}
 }
 
 function doLogin() {
   const input = document.getElementById('login-pw');
   const error = document.getElementById('login-error');
   if (input.value === APP_PASSWORD) {
-    sessionStorage.setItem(SESSION_KEY, 'true');
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ ts: Date.now() }));
     document.getElementById('login-overlay').classList.add('hidden');
     input.value = '';
     error.textContent = '';
@@ -4046,18 +4441,418 @@ function togglePw() {
   input.type = input.type === 'password' ? 'text' : 'password';
 }
 
+// ── CLOUD SYNC (Google Apps Script Web App) ───────────────────────────────────
+const SYNC_URL_KEY    = 'hoopitup_sync_url';
+const CLOUD_POLL_MS   = 60 * 1000; // poll every 60 seconds
+
+// ── HARDCODED SYNC URL — update this if you redeploy the Apps Script ──────────
+const DEFAULT_SYNC_URL = 'https://script.google.com/macros/s/AKfycbxslgmVSskt3T6wAZCiBcxKJZGLL8bbiqtG5IKP4m9MUhuRc2M8mlUgYnncr1TeMFc/exec';
+
+function loadSyncUrl() {
+  // Use saved URL if present, otherwise fall back to the hardcoded default
+  return localStorage.getItem(SYNC_URL_KEY) || DEFAULT_SYNC_URL;
+}
+function saveSyncUrl(url) {
+  if (url) localStorage.setItem(SYNC_URL_KEY, url);
+  else localStorage.removeItem(SYNC_URL_KEY);
+}
+
+// ── JSONP helper (avoids CORS issues — same pattern as roster fetch) ───────────
+function cloudJsonp(url, onSuccess, onError) {
+  const cbName = '_cloudCb_' + Date.now();
+  const timeout = setTimeout(function() {
+    delete window[cbName];
+    const old = document.getElementById('_cloud_script');
+    if (old) old.remove();
+    if (onError) onError('Request timed out. Check the URL and try again.');
+  }, 18000);
+
+  window[cbName] = function(data) {
+    clearTimeout(timeout);
+    delete window[cbName];
+    const old = document.getElementById('_cloud_script');
+    if (old) old.remove();
+    if (onSuccess) onSuccess(data);
+  };
+
+  const old = document.getElementById('_cloud_script');
+  if (old) old.remove();
+
+  const script = document.createElement('script');
+  script.id = '_cloud_script';
+  const sep = url.includes('?') ? '&' : '?';
+  script.src = url + sep + 'cb=' + cbName;
+  script.onerror = function() {
+    clearTimeout(timeout);
+    delete window[cbName];
+    if (onError) onError('Could not reach the sync server. Check your internet connection.');
+  };
+  document.head.appendChild(script);
+}
+
+// ── SYNC STATUS UI ────────────────────────────────────────────────────────────
+function setSyncStatus(state, msg) {
+  const bar  = document.getElementById('sync-status-bar');
+  const dot  = document.getElementById('sync-dot');
+  const text = document.getElementById('sync-status-text');
+  const btn  = document.getElementById('btn-cloudsync');
+  if (!bar || !dot || !text || !btn) return;
+
+  bar.classList.add('visible');
+  dot.className = 'sync-dot';
+
+  if (state === 'syncing') {
+    dot.classList.add('spinning');
+    text.textContent = '↻ Syncing…';
+    btn.className = 'btn-cloudsync syncing';
+    btn.textContent = '↻ Syncing…';
+  } else if (state === 'synced') {
+    text.textContent = '☁ Cloud Sync active — last synced ' + (msg || '');
+    btn.className = 'btn-cloudsync';
+    btn.textContent = '☁ Cloud Sync ✓';
+  } else if (state === 'error') {
+    dot.classList.add('error-dot');
+    text.textContent = '⚠ Sync error: ' + (msg || 'unknown error') + ' — data saved locally';
+    btn.className = 'btn-cloudsync error';
+    btn.textContent = '☁ Sync Error';
+  } else {
+    // disconnected
+    bar.classList.remove('visible');
+    btn.className = 'btn-cloudsync';
+    btn.textContent = '☁ Cloud Sync';
+  }
+}
+
+// ── SYNC MODAL ────────────────────────────────────────────────────────────────
+function openSyncModal() {
+  const url = loadSyncUrl();
+  document.getElementById('csync-url-input').value = url || '';
+  document.getElementById('csync-error').classList.remove('visible');
+  document.getElementById('btn-csync-disconnect').style.display = url ? 'block' : 'none';
+  document.getElementById('btn-csync-connect').disabled = false;
+  document.getElementById('btn-csync-connect').textContent = 'Connect & Sync';
+  document.getElementById('csync-modal-overlay').classList.add('open');
+}
+
+function closeSyncModal() {
+  document.getElementById('csync-modal-overlay').classList.remove('open');
+}
+
+function showSyncModalError(msg) {
+  const el = document.getElementById('csync-error');
+  el.textContent = '⚠ ' + msg;
+  el.classList.add('visible');
+  document.getElementById('btn-csync-connect').disabled = false;
+  document.getElementById('btn-csync-connect').textContent = 'Connect & Sync';
+}
+
+function connectSync() {
+  const rawUrl = document.getElementById('csync-url-input').value.trim();
+  if (!rawUrl || !rawUrl.startsWith('http')) {
+    showSyncModalError('Please enter a valid URL starting with https://');
+    return;
+  }
+  // Strip trailing slash
+  const url = rawUrl.replace(/\/+$/, '');
+  document.getElementById('btn-csync-connect').disabled = true;
+  document.getElementById('btn-csync-connect').textContent = 'Testing connection…';
+  document.getElementById('csync-error').classList.remove('visible');
+
+  // Test the connection by doing a read
+  cloudJsonp(url + '?action=read',
+    function(data) {
+      if (!data || data.status !== 'ok') {
+        showSyncModalError('Script returned an error. Check it is deployed correctly.');
+        return;
+      }
+      saveSyncUrl(url);
+      closeSyncModal();
+      // Merge cloud state into local
+      mergeCloudState(data);
+      setSyncStatus('synced', new Date().toLocaleTimeString());
+      showToast('☁ Cloud Sync connected! Data synced.', 'green');
+    },
+    function(err) {
+      showSyncModalError(err);
+    }
+  );
+}
+
+function disconnectSync() {
+  saveSyncUrl(null);
+  closeSyncModal();
+  setSyncStatus('disconnected', '');
+  showToast('Cloud Sync disconnected. Data saved locally only.', 'orange');
+}
+
+// ── MERGE CLOUD STATE INTO LOCAL STORAGE AND MEMORY ──────────────────────────
+function mergeCloudState(data) {
+  // Cloud is the source of truth — overwrite local with cloud values
+  try {
+    for (var w = 0; w < 4; w++) {
+      const ids = data.checkins && data.checkins[w] ? data.checkins[w] : [];
+      localStorage.setItem(getStorageKey(w), JSON.stringify(ids));
+    }
+  } catch(e) {}
+  try {
+    const jerseyIds = data.jerseys || [];
+    localStorage.setItem(JERSEY_KEY, JSON.stringify(jerseyIds));
+  } catch(e) {}
+  loadCheckinState();
+  loadJerseyState();
+  applyFilters();
+  updateStats();
+}
+
+// ── READ FROM CLOUD ───────────────────────────────────────────────────────────
+function syncReadFromCloud(silent) {
+  const url = loadSyncUrl();
+  if (!url) return;
+  if (!silent) setSyncStatus('syncing', '');
+
+  cloudJsonp(url + '?action=read',
+    function(data) {
+      if (!data || data.status !== 'ok') {
+        setSyncStatus('error', data ? data.message : 'unknown');
+        return;
+      }
+      mergeCloudState(data);
+      setSyncStatus('synced', new Date().toLocaleTimeString());
+    },
+    function(err) {
+      setSyncStatus('error', err);
+    }
+  );
+}
+
+// ── WRITE TO CLOUD ────────────────────────────────────────────────────────────
+function syncWriteToCloud() {
+  const url = loadSyncUrl();
+  if (!url) return;
+
+  // Gather full state
+  var syncData = { checkins: {}, jerseys: [] };
+  for (var w = 0; w < 4; w++) {
+    try {
+      var saved = localStorage.getItem(getStorageKey(w));
+      syncData.checkins[w] = saved ? JSON.parse(saved) : [];
+    } catch(e) { syncData.checkins[w] = []; }
+  }
+  try {
+    var js = localStorage.getItem(JERSEY_KEY);
+    syncData.jerseys = js ? JSON.parse(js) : [];
+  } catch(e) {}
+
+  const dataParam = encodeURIComponent(JSON.stringify(syncData));
+  setSyncStatus('syncing', '');
+
+  cloudJsonp(url + '?action=write&data=' + dataParam,
+    function(data) {
+      if (!data || data.status !== 'ok') {
+        setSyncStatus('error', data ? data.message : 'Write failed');
+      } else {
+        setSyncStatus('synced', new Date().toLocaleTimeString());
+      }
+    },
+    function(err) {
+      setSyncStatus('error', err);
+    }
+  );
+}
+
+// ── AUTO POLL ─────────────────────────────────────────────────────────────────
+function startCloudPoll() {
+  setInterval(function() {
+    syncReadFromCloud(true); // silent background poll
+  }, CLOUD_POLL_MS);
+}
+
 checkLogin();
 
 // Keyboard support
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModalBtn();
+  if (e.key === 'Escape') { closeModalBtn(); closeReport(); closeSyncModal(); }
 });
+
+// ── AUTO-CONNECT TO PRECONFIGURED GOOGLE SHEET ────────────────────────────────
+function autoConnectSheet() {
+  const conn = loadConnection();
+  // If no saved connection, use the default sheet ID
+  if (!conn) {
+    saveConnection(DEFAULT_SHEET_ID, DEFAULT_TAB_NAME);
+  }
+  const activeConn = loadConnection();
+  fetchGvizData(activeConn.sheetId, activeConn.tabName,
+    function onSuccess(table) {
+      const rows = parseGvizTable(table);
+      const roster = rows
+        .filter(r => {
+          const first = r['Name - First'] || r['First Name'] || r['first'] || '';
+          return first.trim() !== '';
+        })
+        .map((r, i) => mapRowToParticipant(r, i));
+      if (roster.length > 0) {
+        const meta = { count: roster.length, loadedAt: new Date().toISOString(), sheetId: activeConn.sheetId, tabName: activeConn.tabName, source: 'google' };
+        saveRosterToStorage(roster, meta);
+        participants = roster;
+        loadCheckinState();
+        loadJerseyState();
+        applyFilters();
+        updateStats();
+        updateSheetUI(meta);
+      }
+    },
+    function onError(msg) {
+      // Silent fail on auto-connect — use cached or built-in data
+      console.warn('Auto-connect failed:', msg);
+    }
+  );
+}
+
+// ── AUTO-REFRESH EVERY 5 MINUTES ─────────────────────────────────────────────
+function startAutoRefresh() {
+  setInterval(function() {
+    const conn = loadConnection();
+    if (!conn) return;
+    fetchGvizData(conn.sheetId, conn.tabName,
+      function onSuccess(table) {
+        const rows = parseGvizTable(table);
+        const roster = rows
+          .filter(r => {
+            const first = r['Name - First'] || r['First Name'] || r['first'] || '';
+            return first.trim() !== '';
+          })
+          .map((r, i) => mapRowToParticipant(r, i));
+        if (roster.length > 0) {
+          const meta = { count: roster.length, loadedAt: new Date().toISOString(), sheetId: conn.sheetId, tabName: conn.tabName, source: 'google' };
+          saveRosterToStorage(roster, meta);
+          participants = roster;
+          loadCheckinState();
+          loadJerseyState();
+          applyFilters();
+          updateStats();
+          updateSheetUI(meta);
+        }
+      },
+      function onError() {} // Silent fail on background refresh
+    );
+  }, AUTO_REFRESH_MS);
+}
+
+// ── REPORT MODAL ──────────────────────────────────────────────────────────────
+function openReport() {
+  // Build check-in table
+  const tbody = document.getElementById('report-checkin-tbody');
+  tbody.innerHTML = '';
+  const total = participants.length;
+  TOURNAMENT_DATES.forEach((date, w) => {
+    try {
+      const key = getStorageKey(w);
+      const saved = localStorage.getItem(key);
+      const checkedIds = saved ? JSON.parse(saved) : [];
+      const count = checkedIds.length;
+      const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>Week ${w + 1}</td><td>${date}</td><td class="num">${count}</td><td>${total - count}</td><td>${pct}%</td>`;
+      tbody.appendChild(tr);
+    } catch(e) {}
+  });
+
+  // Jersey summary
+  const jerseyGiven = participants.filter(p => p.jerseyGiven).length;
+  const jerseyPending = participants.length - jerseyGiven;
+  const jTbody = document.getElementById('report-jersey-tbody');
+  jTbody.innerHTML = `
+    <tr><td>Total Participants</td><td class="num">${participants.length}</td></tr>
+    <tr><td>Jerseys Given ✓</td><td class="num" style="color:#8e44ad">${jerseyGiven}</td></tr>
+    <tr><td>Jerseys Pending</td><td class="num" style="color:#e74c3c">${jerseyPending}</td></tr>
+  `;
+
+  // Jersey by shirt size
+  const sizeCounts = {};
+  const sizeGiven = {};
+  participants.forEach(p => {
+    const s = p.shirt || 'Unknown';
+    sizeCounts[s] = (sizeCounts[s] || 0) + 1;
+    if (p.jerseyGiven) sizeGiven[s] = (sizeGiven[s] || 0) + 1;
+  });
+  const sTbody = document.getElementById('report-jersey-size-tbody');
+  sTbody.innerHTML = Object.keys(sizeCounts).sort().map(s =>
+    `<tr><td>${s}</td><td class="num" style="color:#8e44ad">${sizeGiven[s] || 0}</td><td>${sizeCounts[s] - (sizeGiven[s] || 0)}</td></tr>`
+  ).join('');
+
+  // Pending jersey names
+  const pending = participants.filter(p => !p.jerseyGiven).map(p => `${p.name} (${p.shirt})`);
+  const pendingDiv = document.getElementById('report-jersey-pending');
+  if (pending.length === 0) {
+    pendingDiv.innerHTML = '<span style="color:#27ae60;font-weight:700;">✅ All jerseys have been distributed!</span>';
+  } else {
+    pendingDiv.innerHTML = pending.join('<br>');
+  }
+
+  document.getElementById('report-modal').classList.add('open');
+}
+
+function closeReport() {
+  document.getElementById('report-modal').classList.remove('open');
+}
+
+function exportReport() {
+  const lines = ['Week,Date,Checked In,Not Checked In,Attendance %'];
+  const total = participants.length;
+  TOURNAMENT_DATES.forEach((date, w) => {
+    try {
+      const key = getStorageKey(w);
+      const saved = localStorage.getItem(key);
+      const checkedIds = saved ? JSON.parse(saved) : [];
+      const count = checkedIds.length;
+      const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+      lines.push(`Week ${w + 1},"${date}",${count},${total - count},${pct}%`);
+    } catch(e) {}
+  });
+  lines.push('');
+  lines.push('ID,Name,Division,Shirt Size,Jamatkhana,Jersey Given,Week1,Week2,Week3,Week4');
+
+  const weekData = TOURNAMENT_DATES.map((_, w) => {
+    try {
+      const saved = localStorage.getItem(getStorageKey(w));
+      return saved ? JSON.parse(saved) : [];
+    } catch(e) { return []; }
+  });
+
+  participants.forEach(p => {
+    const weeks = weekData.map(ids => ids.includes(p.id) ? 'Yes' : 'No').join(',');
+    lines.push(`${p.id},"${p.name}","${p.division}","${p.shirt}","${p.jamatkhana}",${p.jerseyGiven ? 'Yes' : 'No'},${weeks}`);
+  });
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `HoopItUp_Report_${date}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ Report exported!', 'green');
+}
 
 // Initialize
 loadCheckinState();
+loadJerseyState();
 applyFilters();
 updateStats();
 showRosterBanner();
+
+// Auto-connect to Google Sheet and start refresh cycle
+autoConnectSheet();
+startAutoRefresh();
+
+// Cloud Sync: always active (URL is hardcoded), read on load + start poll
+(function() {
+  setSyncStatus('syncing', '');
+  syncReadFromCloud(false);
+  startCloudPoll();
+})();
 </script>
 </body>
 </html>
