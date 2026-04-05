@@ -4458,33 +4458,36 @@ function saveSyncUrl(url) {
 }
 
 // ── JSONP helper (avoids CORS issues — same pattern as roster fetch) ───────────
+// Each request gets its own unique script tag ID so concurrent read+write calls
+// never cancel each other (fixed race condition with shared '_cloud_script' id).
 function cloudJsonp(url, onSuccess, onError) {
-  const cbName = '_cloudCb_' + Date.now();
+  const cbName  = '_cloudCb_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+  const scriptId = '_cscript_' + cbName;
+
   const timeout = setTimeout(function() {
     delete window[cbName];
-    const old = document.getElementById('_cloud_script');
-    if (old) old.remove();
+    const el = document.getElementById(scriptId);
+    if (el) el.remove();
     if (onError) onError('Request timed out. Check the URL and try again.');
   }, 18000);
 
   window[cbName] = function(data) {
     clearTimeout(timeout);
     delete window[cbName];
-    const old = document.getElementById('_cloud_script');
-    if (old) old.remove();
+    const el = document.getElementById(scriptId);
+    if (el) el.remove();
     if (onSuccess) onSuccess(data);
   };
 
-  const old = document.getElementById('_cloud_script');
-  if (old) old.remove();
-
   const script = document.createElement('script');
-  script.id = '_cloud_script';
+  script.id = scriptId;
   const sep = url.includes('?') ? '&' : '?';
   script.src = url + sep + 'cb=' + cbName;
   script.onerror = function() {
     clearTimeout(timeout);
     delete window[cbName];
+    const el = document.getElementById(scriptId);
+    if (el) el.remove();
     if (onError) onError('Could not reach the sync server. Check your internet connection.');
   };
   document.head.appendChild(script);
@@ -4587,17 +4590,47 @@ function disconnectSync() {
 
 // ── MERGE CLOUD STATE INTO LOCAL STORAGE AND MEMORY ──────────────────────────
 function mergeCloudState(data) {
-  // Cloud is the source of truth — overwrite local with cloud values
+  // Cloud is the source of truth ONLY when it has real data.
+  // If the cloud is completely empty (all weeks [] and jerseys []), we skip
+  // overwriting local storage — this protects against a fresh-cloud read wiping
+  // data that was just imported locally before the first write has completed.
+  const cloudCheckins = data.checkins || {};
+  const cloudJerseys  = data.jerseys  || [];
+  const cloudHasData  = cloudJerseys.length > 0 ||
+    [0,1,2,3].some(function(w) {
+      return cloudCheckins[w] && cloudCheckins[w].length > 0;
+    });
+
   try {
     for (var w = 0; w < 4; w++) {
-      const ids = data.checkins && data.checkins[w] ? data.checkins[w] : [];
-      localStorage.setItem(getStorageKey(w), JSON.stringify(ids));
+      var localKey = getStorageKey(w);
+      var cloudIds = cloudCheckins[w] || [];
+      if (cloudHasData) {
+        // Cloud has data — it is the authority
+        localStorage.setItem(localKey, JSON.stringify(cloudIds));
+      } else {
+        // Cloud is empty — only write if local is also empty (don't wipe local data)
+        var localRaw = localStorage.getItem(localKey);
+        var localIds = localRaw ? JSON.parse(localRaw) : [];
+        if (!localIds.length) {
+          localStorage.setItem(localKey, JSON.stringify([]));
+        }
+      }
     }
   } catch(e) {}
+
   try {
-    const jerseyIds = data.jerseys || [];
-    localStorage.setItem(JERSEY_KEY, JSON.stringify(jerseyIds));
+    if (cloudHasData) {
+      localStorage.setItem(JERSEY_KEY, JSON.stringify(cloudJerseys));
+    } else {
+      var localJerseyRaw = localStorage.getItem(JERSEY_KEY);
+      var localJerseys = localJerseyRaw ? JSON.parse(localJerseyRaw) : [];
+      if (!localJerseys.length) {
+        localStorage.setItem(JERSEY_KEY, JSON.stringify([]));
+      }
+    }
   } catch(e) {}
+
   loadCheckinState();
   loadJerseyState();
   applyFilters();
